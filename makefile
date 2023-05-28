@@ -18,5 +18,5 @@ build:
 run: $(BIN)/$(TARGET)
 	$(BIN)/$(TARGET)
 
-clear: $(BIN)/$(TARGET)
+clear:
 	rm -rf $(BIN)/*
