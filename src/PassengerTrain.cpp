@@ -7,3 +7,13 @@ PassengerTrain::PassengerTrain(int priority_, int id_, int maxSpeed_)
     this->maxSpeed = maxSpeed_;
 
 }
+
+void PassengerTrain::setNextSignal(SemaphoreEnum nextSignal_)
+{
+    this->nextSignal = nextSignal_;
+}
+
+void PassengerTrain::run()
+{
+    
+}

@@ -12,7 +12,8 @@ public:
     int getID() const;
     int getMaxSpeed() const;
 
-    
+    void setNextSignal(SemaphoreEnum nextSignal_);
+    void run();
 
 private:
 
