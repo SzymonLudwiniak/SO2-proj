@@ -1,20 +1,22 @@
+#pragma once
+
 #include "utility.h"
 
 
 class Drawable 
 {
 public:
-    void moveBy(int32_t x, int32_t y);
-    void moveBy(sCoord vec);
+    void moveBy(int x, int y);
+    void moveBy(sVec vec);
 
-    void setPosition(int32_t x, int32_t y);
-    void setPosition(sCoord position);
+    void setPosition(int x, int y);
+    void setPosition(sVec position);
 
-    sCoord getPosition() const;
+    sVec getPosition() const;
 
     virtual bool draw();
 
 private:
-    sCoord position;
+    sVec position;
 
 };

@@ -1,11 +1,13 @@
+#pragma once
+
 #include <cstdint>
 
 #define SCREENWIDTH 80
 #define SCREENHEIGHT 60
 
 
-struct sCoord
+struct sVec
 {
-    int32_t x;
-    int32_t y;
+    int x;
+    int y;
 };

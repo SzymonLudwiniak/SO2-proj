@@ -1,31 +1,30 @@
 #include "../../include/gui/Drawable.h"
 
 
-void Drawable::moveBy(int32_t x, int32_t y)
+void Drawable::moveBy(int x, int y)
 {
     this->position.x += x;
     this->position.y += y;
 }
 
-void Drawable::moveBy(sCoord vec)
+void Drawable::moveBy(sVec vec)
 {
     this->position.x += vec.x;
     this->position.y += vec.y;
 }
 
-void Drawable::setPosition(int32_t x, int32_t y)
+void Drawable::setPosition(int x, int y)
 {
     this->position.x = x;
     this->position.y = y;
 }
 
-void Drawable::setPosition(sCoord position)
+void Drawable::setPosition(sVec position)
 {
-    this->position.x = position.x;
-    this->position.y = position.y;
+    this->position = position;
 }
 
-sCoord Drawable::getPosition() const
+sVec Drawable::getPosition() const
 {
     return position;
 }

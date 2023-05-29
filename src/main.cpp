@@ -1,26 +1,17 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.cpp
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  28.03.2023 12:22:10
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Szymon Ludwiniak (), szymon.ludwiniak4ti@gmail.com
- *   Organization:  
- *
- * =====================================================================================
- */
-
 #include <iostream>
+#include <vector>
+#include <ncurses.h>
 
+#include "../include/gui/Canva.h"
 
 int main()
 {
-    std::cout << "hello world!\n";
+    Canva canva({0, 0}, {30, 20});
+    Drawable a;
+    a.setPosition(5, 5);
+
+    initscr();
+
+    endwin();
     return 0;
 }
