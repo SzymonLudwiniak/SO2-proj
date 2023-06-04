@@ -18,7 +18,7 @@ public:
     sVec getPosition();
     sVec getSize();
 
-    void addComponent(Drawable * component);
+    bool addComponent(Drawable * component);
 
     bool draw();
 
@@ -27,4 +27,9 @@ private:
 
     sVec position;
     sVec size;
+
+    void adjustCompPos(Drawable * component);
+    void drawBounds();
+
+    bool isInBounds(Drawable * component);
 };

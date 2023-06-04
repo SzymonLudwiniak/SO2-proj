@@ -1,3 +1,5 @@
+#include <ncurses.h>
+
 #include "../../include/gui/Drawable.h"
 
 
@@ -31,5 +33,6 @@ sVec Drawable::getPosition() const
 
 bool Drawable::draw()
 {
+    mvaddch(position.y, position.x, '@');
     return true;
 }
