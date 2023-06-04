@@ -6,7 +6,7 @@
 #include "Drawable.h"
 
 
-class Canva
+class Canva : public Drawable
 {
 public:
     Canva(int posX, int posY, int width, int height);
@@ -20,7 +20,7 @@ public:
 
     void addComponent(Drawable * component);
 
-    void draw();
+    bool draw();
 
 private:
     std::vector<Drawable*> components; 

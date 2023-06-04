@@ -6,12 +6,13 @@
 
 int main()
 {
-    Canva canva({0, 0}, {30, 20});
+    Canva canva({0, 0}, {60, 30});
     Drawable a;
     a.setPosition(5, 5);
 
     initscr();
-
+    canva.draw();
+    getch();
     endwin();
     return 0;
 }

@@ -1,3 +1,5 @@
+#include <ncurses.h>
+
 #include "../../include/gui/Canva.h"
 
 
@@ -38,4 +40,24 @@ sVec Canva::getSize()
 void Canva::addComponent(Drawable * component)
 {
     components.push_back(component);
+}
+
+bool Canva::draw()
+{
+    move(position.y, position.x);
+    hline('#', size.x);
+    vline('#', size.y);
+    move(position.y+size.y, position.x);
+    hline('#', size.x+1);
+    move(position.y, position.x+size.x);
+    vline('#', size.y);
+
+    for(auto component : components)
+    {
+        component->draw();
+    }
+
+    if(components.size() == 0)
+        return false;
+    return true;
 }
