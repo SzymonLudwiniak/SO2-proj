@@ -29,12 +29,12 @@ sVec InfoBuffer::getSize() const
     return size;
 }
 
-bool InfoBuffer::pushMessage(std::string message)
+bool InfoBuffer::pushMessage(std::string message, unsigned short priority)
 {
-    messages.push_back(message);
-    if(messages.size() > messageLimit)
+    logs.push_back({message, priority});
+    if(logs.size() > messageLimit)
     {
-        messages.erase(messages.begin());
+        logs.erase(logs.begin());
         return true;
     }
     return false;
@@ -46,23 +46,36 @@ bool InfoBuffer::draw()
     pos.y++;
     pos.x++;
 
-    for(auto m : messages)
+    for(auto l : logs)
     {
+        attr_t currAttrs;
+        short currPair;
+        attr_get(&currAttrs, &currPair, NULL);
+        attron(COLOR_PAIR(l.second));
+
         char trunMess[size.x];
         trunMess[size.x-1] = '\0';
 
-        strncpy(trunMess, m.c_str(), size.x-1);
+        strncpy(trunMess, l.first.c_str(), size.x-1);
         mvprintw(pos.y++, pos.x, trunMess);
+
+        attr_set(currAttrs, currPair, NULL);
     }
     drawBounds();
 
-    if(messages.empty())
+    if(logs.empty())
         return false;
     return true;
 }
 
 void InfoBuffer::drawBounds()
 {
+    attr_t currAttrs;
+    short currPair;
+    attr_get(&currAttrs, &currPair, NULL);
+
+    attron(COLOR_PAIR(BORDER_COLOR));
+
     sVec pos = getPosition();
     move(pos.y, pos.x);
     hline('#', size.x);
@@ -71,4 +84,6 @@ void InfoBuffer::drawBounds()
     hline('#', size.x+1);
     move(pos.y, pos.x+size.x);
     vline('#', size.y);
+
+    attr_set(currAttrs, currPair, NULL);
 }

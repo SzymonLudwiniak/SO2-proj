@@ -64,6 +64,12 @@ void Canva::adjustCompPos(Drawable * component)
 
 void Canva::drawBounds()
 {
+    attr_t currAttrs;
+    short currPair;
+    attr_get(&currAttrs, &currPair, NULL);
+
+    attron(COLOR_PAIR(BORDER_COLOR));
+
     sVec pos = getPosition();
     move(pos.y, pos.x);
     hline('#', size.x);
@@ -72,6 +78,8 @@ void Canva::drawBounds()
     hline('#', size.x+1);
     move(pos.y, pos.x+size.x);
     vline('#', size.y);
+
+    attr_set(currAttrs, currPair, NULL);
 }
 
 bool Canva::isInBounds(Drawable * component)

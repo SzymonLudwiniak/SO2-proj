@@ -2,20 +2,24 @@
 #include <vector>
 #include <string>
 #include <ncurses.h>
+#include <ctime>
 
 #include "../include/gui/Canva.h"
 #include "../include/gui/InfoBuffer.h"
 
 int main()
 {
+    srand(time(NULL));
     InfoBuffer buffer({0, 0}, {60, 10});
 
     initscr();
+    initColors();
+
     char ch = 0;
     getch();
     do
     {
-        buffer.pushMessage("maciek jest gej! " + std::to_string(ch) + "potrzebna jest bardzo dluga wiadomosc!!!!dsaad");     
+        buffer.pushMessage("hello log " + std::to_string(ch), (rand()%3)+3);     
         buffer.draw();
     } while((ch = getch()) != 'q');
 

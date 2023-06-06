@@ -15,12 +15,12 @@ public:
     void setSize(sVec size);
     sVec getSize() const;
 
-    bool pushMessage(std::string message);
+    bool pushMessage(std::string message, unsigned short priority = 3);
 
     bool draw();
 
 private:
-    std::vector<std::string> messages;
+    std::vector<std::pair<std::string, unsigned short>> logs;
 
     sVec size;
     unsigned int messageLimit;
