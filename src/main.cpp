@@ -16,7 +16,6 @@ int main()
     initColors();
 
     char ch = 0;
-    getch();
     do
     {
         buffer.pushMessage("hello log " + std::to_string(ch), (rand()%3)+3);     

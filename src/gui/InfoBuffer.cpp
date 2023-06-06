@@ -46,6 +46,10 @@ bool InfoBuffer::draw()
     pos.y++;
     pos.x++;
 
+    char clearingBuffer[size.x];
+    memset(clearingBuffer, ' ', size.x*sizeof(*clearingBuffer));
+    clearingBuffer[size.x - 1] = '\0';
+
     for(auto l : logs)
     {
         attr_t currAttrs;
@@ -57,6 +61,8 @@ bool InfoBuffer::draw()
         trunMess[size.x-1] = '\0';
 
         strncpy(trunMess, l.first.c_str(), size.x-1);
+
+        mvprintw(pos.y, pos.x, clearingBuffer);
         mvprintw(pos.y++, pos.x, trunMess);
 
         attr_set(currAttrs, currPair, NULL);
