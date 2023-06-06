@@ -1,41 +1,24 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include <ncurses.h>
 
 #include "../include/gui/Canva.h"
+#include "../include/gui/InfoBuffer.h"
 
 int main()
 {
-    Canva canva({0, 0}, {60, 30});
-    Drawable a;
-    a.setPosition(5, 5);
-    canva.addComponent(&a);
+    InfoBuffer buffer({0, 0}, {60, 10});
 
     initscr();
     char ch = 0;
+    getch();
     do
     {
-        erase();
-        switch(ch)
-        {
-        case 'a':
-            a.moveBy(-1, 0);
-            break;
-        case 'w':
-            a.moveBy(0, -1);
-            break;
-        case 'd':
-            a.moveBy(+1, 0);
-            break;
-        case 's':
-            a.moveBy(0, +1);
-            break;
-        default:
-            break;
-        }
-
-        canva.draw();
+        buffer.pushMessage("maciek jest gej! " + std::to_string(ch) + "potrzebna jest bardzo dluga wiadomosc!!!!dsaad");     
+        buffer.draw();
     } while((ch = getch()) != 'q');
+
     endwin();
     return 0;
 }

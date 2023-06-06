@@ -12,11 +12,8 @@ public:
     Canva(int posX, int posY, int width, int height);
     Canva(sVec position, sVec size);
 
-    void setPosition(sVec pos);
     void setSize(sVec size);
-
-    sVec getPosition();
-    sVec getSize();
+    sVec getSize() const;
 
     bool addComponent(Drawable * component);
 
@@ -25,7 +22,6 @@ public:
 private:
     std::vector<Drawable*> components; 
 
-    sVec position;
     sVec size;
 
     void adjustCompPos(Drawable * component);
