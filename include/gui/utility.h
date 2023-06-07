@@ -10,6 +10,7 @@
 #define LOW_PRIO_COLOR  3
 #define MID_PRIO_COLOR  4
 #define TOP_PRIO_COLOR  5
+#define REV_BASE_COLOR  6
 
 #define LOW_PRIORITY 3
 #define MID_PRIORITY 4

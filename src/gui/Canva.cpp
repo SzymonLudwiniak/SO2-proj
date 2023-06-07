@@ -6,26 +6,13 @@
 Canva::Canva(int posX, int posY, int width, int height)
 {
     setPosition({posX, posY});
-    this->size.x = width;
-    this->size.y = height;
+    setSize({width, height});
 }
 
 Canva::Canva(sVec position, sVec size)
 {
     setPosition(position);
-    this->size = size;
-}
-
-
-void Canva::setSize(sVec size)
-{
-    this->size = size;
-}
-
-
-sVec Canva::getSize() const
-{
-    return size;
+    setSize(size);
 }
 
 bool Canva::addComponent(Drawable * component)
@@ -62,30 +49,12 @@ void Canva::adjustCompPos(Drawable * component)
     component->moveBy(p); // adjust position to canva
 }
 
-void Canva::drawBounds()
-{
-    attr_t currAttrs;
-    short currPair;
-    attr_get(&currAttrs, &currPair, NULL);
-
-    attron(COLOR_PAIR(BORDER_COLOR));
-
-    sVec pos = getPosition();
-    move(pos.y, pos.x);
-    hline('#', size.x);
-    vline('#', size.y);
-    move(pos.y+size.y, pos.x);
-    hline('#', size.x+1);
-    move(pos.y, pos.x+size.x);
-    vline('#', size.y);
-
-    attr_set(currAttrs, currPair, NULL);
-}
-
 bool Canva::isInBounds(Drawable * component)
 {
     sVec pos = getPosition();
     sVec cPos = component->getPosition();
+    sVec size = getSize();
+
     if(cPos.x < pos.x || cPos.x > pos.x + size.x ||
         cPos.y < pos.y || cPos.y > pos.y + size.y)
         return false;

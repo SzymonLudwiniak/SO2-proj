@@ -3,17 +3,14 @@
 #include <vector>
 #include <string>
 
-#include "Drawable.h"
+#include "ViewPort.h"
 
 
-class InfoBuffer : public Drawable
+class InfoBuffer : public ViewPort
 {
 public:
     InfoBuffer(int posX, int posY, int width, int height);
     InfoBuffer(sVec position, sVec size);
-
-    void setSize(sVec size);
-    sVec getSize() const;
 
     bool pushMessage(std::string message, unsigned short priority = 3);
 
@@ -22,8 +19,5 @@ public:
 private:
     std::vector<std::pair<std::string, unsigned short>> logs;
 
-    sVec size;
     unsigned int messageLimit;
-
-    void drawBounds();
 };

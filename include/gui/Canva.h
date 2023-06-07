@@ -3,17 +3,14 @@
 #include <vector>
 
 #include "utility.h"
-#include "Drawable.h"
+#include "ViewPort.h"
 
 
-class Canva : public Drawable
+class Canva : public ViewPort
 {
 public:
     Canva(int posX, int posY, int width, int height);
     Canva(sVec position, sVec size);
-
-    void setSize(sVec size);
-    sVec getSize() const;
 
     bool addComponent(Drawable * component);
 
@@ -22,10 +19,7 @@ public:
 private:
     std::vector<Drawable*> components; 
 
-    sVec size;
-
     void adjustCompPos(Drawable * component);
-    void drawBounds();
 
     bool isInBounds(Drawable * component);
 };
