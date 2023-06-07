@@ -16,11 +16,22 @@
  * =====================================================================================
  */
 
-#include <iostream>
+#include "../include/Station.h"
 
+#include <thread>
 
 int main()
 {
-    std::cout << "hello world!\n";
+    Station st("modes", 3, 1);
+    Train* ps = new PassengerTrain(100, 120);
+
+    st.addTrain(ps);
+    std::thread tr = std::thread(&Train::run, &(*ps));
+
+    std::thread stationTh = std::thread(&Station::run, &st);
+
+    tr.join();
+    stationTh.join();
+
     return 0;
 }

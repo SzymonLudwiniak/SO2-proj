@@ -6,19 +6,20 @@ class PassengerTrain : public Train
 {
 public:
 
-    PassengerTrain(int priority_, int id_, int maxSpeed_);
-
-    int getPriority() const;
-    int getID() const;
-    int getMaxSpeed() const;
+    PassengerTrain(int priority_, int maxSpeed_);
 
     void setNextSignal(SemaphoreEnum nextSignal_);
-    void run();
+    void setDriver(int driverID_);
+    void setTrackAt(int trackAt_);
 
+    int getTrackAt();
+    int getID();
+
+    void run();
 private:
 
     int delay;
 
-
+    int platform{-1};
 
 };
