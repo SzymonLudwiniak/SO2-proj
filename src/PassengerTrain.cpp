@@ -6,7 +6,7 @@
 PassengerTrain::PassengerTrain(int priority_,int maxSpeed_, std::vector<RouteElement> route_)
 {
     this->priority = priority_;
-    this->id = trainCounter;
+    this->id = trainCounter++;
     this->maxSpeed = maxSpeed_;
     this->route = route_;
 }
@@ -26,7 +26,7 @@ int PassengerTrain::getID()
     return id;
 }
 
-bool PassengerTrain::getIsAbleToLeave()
+bool PassengerTrain::getIsAbleToLeave() 
 {
     return isAbleToLeave;
 }
@@ -48,13 +48,11 @@ void PassengerTrain::setIsAllowedToLeave(bool isAllowedToLeave_)
 
 void PassengerTrain::run()
 {
-    while(stationCounter < route.size())
+    while(stationCounter < (int) route.size())
     {
         
         // if no driver, train waits for the driver
         //while(driverID == -1){}
-
-        std::cout << "jade\n";
 
         // jest na trasie, semafory mu ustalaja predkosc
         if(nextSignal == SemaphoreEnum::STOP)
@@ -80,14 +78,18 @@ void PassengerTrain::run()
 
             currentStation = route[stationCounter].stationName;
 
-            std::cout << "Train: " << id << " stayed at station: " << 
-                currentStation << " for: " << route[stationCounter].stopTime << "\n";
+          //  std::cout << "Train: " << id << " stayed at station: " << currentStation << " platform: " << trackAt << " for: " << route[stationCounter].stopTime << "\n";
 
             std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
+            
+       //     std::cout << "Train " << id << " is ready to leave from: " << currentStation << "\n";
+            
             currentStation = "";
 
             route[stationCounter].hasStoped = true;
             isAbleToLeave = true;
+
+            
         }
 
         while(!isAllowedToLeave)
@@ -98,5 +100,5 @@ void PassengerTrain::run()
         
     }
 
-    std::cout << "Train: " << id << " finished its route.";
+  //  std::cout << "Train: " << id << " finished its route.\n";
 }

@@ -24,9 +24,14 @@ public:
     virtual void setTrackAt(int trackAt_) = 0;
     virtual void setIsAllowedToLeave(bool isAllowedToLeave_) = 0;
 
+    int operator<(const Train* other_)
+    {
+        return other_->priority - this->priority;
+    }
+
 protected:
 
-    static int trainCounter;
+    static std::atomic<int> trainCounter;
 
     int maxSpeed;
     int currentSpeed {0};

@@ -19,28 +19,48 @@
 #include "../include/Station.h"
 
 #include <thread>
+#include <time.h>
+#include <cstdlib>
+
+#define TRAINS_NUM 5
 
 int main()
 {
-    Station st("modes", 3, 1);
-    
-    RouteElement rt;
-    rt.stationName = "modes";
-    rt.stopTime = 5000;
+    srand(time(nullptr));
+
+    Station st("modes", 3, 2);
+
+    std::vector<Train*> passTrains;
+
+    for(int i = 0; i < TRAINS_NUM; i++)
+    {
+        RouteElement rt;
+        rt.stationName = "modes";
+        rt.stopTime = rand() % 4000 + 1000;
 
 
+        passTrains.push_back(new PassengerTrain(100, 120, {rt}));
+        st.addTrain(passTrains[i]);
+    }
 
-    Train* ps = new PassengerTrain(100, 120, {rt});
-
-    st.addTrain(ps);
-    std::thread tr = std::thread(&Train::run, &(*ps));
+    std::vector<std::thread> passTrainsThreads;
 
     std::thread stationThLeave = std::thread(&Station::leavingMechanism, &st);
     std::thread stationThArrive = std::thread(&Station::arrivingMechanism, &st);
-    
+
+    for(int i = 0; i < TRAINS_NUM; i++)
+    {
+        passTrainsThreads.push_back(std::thread(&Train::run, &(*(passTrains[i]))));
+    }
+
+
     stationThLeave.join();
     stationThArrive.join();
-    tr.join();
+    
+    for(int i = 0; i < TRAINS_NUM; i++)
+    {
+        passTrainsThreads[i].join();
+    }
 
     return 0;
 }

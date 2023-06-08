@@ -8,7 +8,11 @@ Station::Station(std::string name_, int tracksNum_, int platformsNum_)
     tracksNum(tracksNum_),
     platformsNum(platformsNum_)
 {
-    tracks = new std::atomic<int>[tracksNum]{-1};
+    tracks = new std::atomic<int>[tracksNum];
+    for(int i = 0; i < tracksNum; i++)
+    {
+        tracks[i] = -1;
+    }
 }
 
 Station::~Station()
