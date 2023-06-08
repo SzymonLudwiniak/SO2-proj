@@ -23,15 +23,24 @@
 int main()
 {
     Station st("modes", 3, 1);
-    Train* ps = new PassengerTrain(100, 120);
+    
+    RouteElement rt;
+    rt.stationName = "modes";
+    rt.stopTime = 5000;
+
+
+
+    Train* ps = new PassengerTrain(100, 120, {rt});
 
     st.addTrain(ps);
     std::thread tr = std::thread(&Train::run, &(*ps));
 
-    std::thread stationTh = std::thread(&Station::run, &st);
-
+    std::thread stationThLeave = std::thread(&Station::leavingMechanism, &st);
+    std::thread stationThArrive = std::thread(&Station::arrivingMechanism, &st);
+    
+    stationThLeave.join();
+    stationThArrive.join();
     tr.join();
-    stationTh.join();
 
     return 0;
 }

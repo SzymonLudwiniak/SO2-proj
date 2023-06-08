@@ -5,12 +5,19 @@
 
 Station::Station(std::string name_, int tracksNum_, int platformsNum_)
   : name(name_), 
-    tracks(tracksNum_, -1),
-    platformsNum(platformsNum_),
-    outSemaphores(tracksNum_, SemaphoreEnum::STOP)
-{ }
+    tracksNum(tracksNum_),
+    platformsNum(platformsNum_)
+{
+    tracks = new std::atomic<int>[tracksNum]{-1};
+}
 
-void Station::run()
+Station::~Station()
+{
+    delete[] tracks;
+    tracks = nullptr;
+}
+
+void Station::leavingMechanism()
 {
     while(true)
     {
@@ -18,30 +25,37 @@ void Station::run()
         // train leaves
         if(isRouteFree && !trainsToLeave.empty())
         {
-            auto trainToLeave = trainsToLeave.top();
+            auto trainToLeave = dequeuePriority();
+
+            while(!trainToLeave->getIsAbleToLeave()) {}
             
             std::cout << "Train left:" << trainToLeave->getID() << " from track: " << trainToLeave->getTrackAt() << "\n";
-
-            trainToLeave->setNextSignal(SemaphoreEnum::GO_40KMH);
 
             tracks[trainToLeave->getTrackAt()] = -1; 
             trainToLeave->setTrackAt(-1);
 
-            trainsToLeave.pop();
+            trainToLeave->setNextSignal(SemaphoreEnum::GO_40KMH);
+            trainToLeave->setIsAllowedToLeave(true);
             
-            this->isRouteFree = false;
-
-            
+            this->isRouteFree = false; 
         }
+    }
+}
 
+void Station::arrivingMechanism()
+{
+    while(true)
+    {
         if(trainsToArrive.empty())
             continue;
 
-        auto trainToArrive = trainsToArrive.front();
+        auto trainToArrive = dequeue();
+
+        int trackToArrive = 0;
 
         if(dynamic_cast<PassengerTrain*>(trainToArrive))
         {
-            int trackToArrive = platformsNum;
+            trackToArrive = platformsNum;
 
             while(trackToArrive == platformsNum)
             {
@@ -55,16 +69,15 @@ void Station::run()
 
                     break;
                 }
-            }   
-            trainToArrive->setTrackAt(trackToArrive);
+            }    
         }
         else
         {
-            int trackToArrive = tracks.size();
+            trackToArrive = tracksNum;
 
-            while(trackToArrive == tracks.size())
+            while(trackToArrive == tracksNum)
             {
-                for(int i = 0; i < tracks.size(); i++)
+                for(int i = 0; i < tracksNum; i++)
                 {
                     if(tracks[i] != -1)
                         continue;
@@ -75,14 +88,16 @@ void Station::run()
                     break;
                 }
             }   
-
-            trainToArrive->setTrackAt(trackToArrive);
         }
 
-        trainsToLeave.push(trainToArrive);
-        trainsToArrive.pop();
+        trainToArrive->setNextSignal(SemaphoreEnum::STOP);
+        trainToArrive->setTrackAt(trackToArrive);
 
-        std::cout << "Train " << trainToArrive->getID() << " arrived:" << trainToArrive->getID() << " on track: " << trainToArrive->getTrackAt() << "\n";
+        enqueuePriority(trainToArrive);
+        dequeue();
+
+        std::cout << "Train " << trainToArrive->getID() << " arrived:" << trainToArrive->getID() 
+            << " on track: " << trainToArrive->getTrackAt() << "\n";
     }
 }
 
@@ -93,5 +108,33 @@ void Station::setIsRouteFree(bool isRouteFree_)
 
 void Station::addTrain(Train* train_)
 {
+    enqueue(train_);
+}
+
+void Station::enqueue(Train* train_)
+{
+    std::lock_guard<std::mutex> lock(trainsToArriveMutex);
     trainsToArrive.push(train_);
+}
+
+Train* Station::dequeue()
+{
+    std::lock_guard<std::mutex> lock(trainsToArriveMutex);
+    auto train = trainsToArrive.front();
+    trainsToArrive.pop();
+    return train;
+}
+
+void Station::enqueuePriority(Train* train_)
+{
+    std::lock_guard<std::mutex> lock(trainsToLeaveMutex);
+    trainsToLeave.push(train_);
+}
+
+Train* Station::dequeuePriority()
+{
+    std::lock_guard<std::mutex> lock(trainsToLeaveMutex);
+    auto train = trainsToLeave.top();
+    trainsToLeave.pop();
+    return train;
 }
