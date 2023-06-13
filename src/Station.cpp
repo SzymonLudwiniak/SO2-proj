@@ -29,14 +29,20 @@ void Station::leavingMechanism()
         // train leaves
 
         if(!isRouteFree)
+        {
             continue;
+        }
 
         if(trainsToLeave.empty())
+        {
             continue;
+        }
 
         auto trainToLeave = dequeuePriority();
 
-        while(!trainToLeave->getIsAbleToLeave()) {}
+        while(!trainToLeave->getIsAbleToLeave()) {
+
+        }
 
         std::cout << "Train left:" << trainToLeave->getID() << " from track: " << trainToLeave->getTrackAt() << "\n";
 
@@ -154,7 +160,7 @@ Train* Station::dequeuePriority()
 {
     std::lock_guard<std::mutex> lock(trainsToLeaveMutex);
     auto train = trainsToLeave.top();
-    trainsToLeave.pop();
+    //trainsToLeave.pop();
     return train;
 }
 
