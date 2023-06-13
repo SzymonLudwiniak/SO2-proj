@@ -26,7 +26,7 @@ int PassengerTrain::getID()
     return id;
 }
 
-bool PassengerTrain::getIsAbleToLeave() 
+bool PassengerTrain::getIsAbleToLeave()
 {
     return isAbleToLeave;
 }
@@ -43,14 +43,14 @@ void PassengerTrain::setTrackAt(int trackAt_)
 
 void PassengerTrain::setIsAllowedToLeave(bool isAllowedToLeave_)
 {
-    isAllowedToLeave = isAllowedToLeave_; 
+    isAllowedToLeave = isAllowedToLeave_;
 }
 
 void PassengerTrain::run()
 {
     while(stationCounter < (int) route.size())
     {
-        
+
         // if no driver, train waits for the driver
         //while(driverID == -1){}
 
@@ -62,43 +62,25 @@ void PassengerTrain::run()
         else
             currentSpeed = maxSpeed;
 
-        
+
         // sjesli jest na trasie to pomija mechanizm wymiany pasazerów
         if(trackAt == -1)
             continue;
 
-        // dopoki jest przy peronie
-        while(trackAt != -1)
-        {
-            // wymienił pasazerów, czeka na odjazd
-            if(route[stationCounter].hasStoped)
-                continue;
-            
-            isAbleToLeave = false;
+        std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
 
-            currentStation = route[stationCounter].stationName;
+        std::cout << "Train " << id << " stopped at " << route[stationCounter].stationName << " for " << route[stationCounter].stopTime << "\n";
 
-          //  std::cout << "Train: " << id << " stayed at station: " << currentStation << " platform: " << trackAt << " for: " << route[stationCounter].stopTime << "\n";
+        isAbleToLeave = true;
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
-            
-       //     std::cout << "Train " << id << " is ready to leave from: " << currentStation << "\n";
-            
-            currentStation = "";
+        while(!isAllowedToLeave) {}
 
-            route[stationCounter].hasStoped = true;
-            isAbleToLeave = true;
+        trackAt = -1;
+        isAbleToLeave = false;
+        isAllowedToLeave = false;
+        stationCounter++;
 
-            
-        }
-
-        while(!isAllowedToLeave)
-        {
-            stationCounter++;
-            isAllowedToLeave = false;
-        }
-        
     }
 
-  //  std::cout << "Train: " << id << " finished its route.\n";
+     std::cout << "Train: " << id << " finished its route.\n";
 }

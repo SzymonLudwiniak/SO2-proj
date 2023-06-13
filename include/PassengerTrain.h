@@ -17,7 +17,7 @@ public:
     int getTrackAt();
     int getID();
     bool getIsAbleToLeave();
-    
+
 
     void run();
 private:

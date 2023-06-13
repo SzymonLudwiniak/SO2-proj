@@ -17,17 +17,12 @@ public:
 
     virtual int getTrackAt() = 0;
     virtual int getID() = 0;
-    
+
     virtual bool getIsAbleToLeave() = 0;
 
     virtual void setDriver(int driverID_) = 0;
     virtual void setTrackAt(int trackAt_) = 0;
     virtual void setIsAllowedToLeave(bool isAllowedToLeave_) = 0;
-
-    int operator<(const Train* other_)
-    {
-        return other_->priority - this->priority;
-    }
 
 protected:
 
@@ -38,7 +33,7 @@ protected:
 
     std::atomic<int> priority;
     std::atomic<int> id;
-    
+
     std::atomic<int> trackAt{-1};
     std::atomic<bool> isAbleToLeave{false};
     std::atomic<bool> isAllowedToLeave{false};
