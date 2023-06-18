@@ -61,7 +61,7 @@ void PromptWindow::drawBounds()
     short currPair;
     attr_get(&currAttrs, &currPair, NULL);
 
-    attron(COLOR_PAIR(REV_BASE_COLOR));
+    attron(COLOR_PAIR(BASE_COLOR));
 
     sVec pos = getPosition();
     sVec size = getSize();
