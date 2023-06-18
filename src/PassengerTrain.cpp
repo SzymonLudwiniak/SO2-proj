@@ -71,12 +71,12 @@ void PassengerTrain::run()
 
         std::cout << "Train " << id << " stopped at " << route[stationCounter].stationName << " for " << route[stationCounter].stopTime << "\n";
 
-        isAbleToLeave = true;
 
         while(!isAllowedToLeave) {}
 
+        std::cout << "Train " << getID() << " left from track: " << getTrackAt() << "\n";
+
         trackAt = -1;
-        isAbleToLeave = false;
         isAllowedToLeave = false;
         stationCounter++;
 

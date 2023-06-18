@@ -43,7 +43,7 @@ private:
 
     std::atomic<bool> isRouteFree{true};
 
-    std::atomic<int>* tracks{nullptr};
+    int* tracks{nullptr};
     int tracksNum;
     int platformsNum;
 

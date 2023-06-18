@@ -8,10 +8,16 @@ Station::Station(std::string name_, int tracksNum_, int platformsNum_)
           tracksNum(tracksNum_),
           platformsNum(platformsNum_)
 {
-    tracks = new std::atomic<int>[tracksNum];
+    tracks = new int[tracksNum];
     for(int i = 0; i < tracksNum; i++)
     {
         tracks[i] = -1;
+    }
+
+    std::cout << "track status:\n";
+    for(int i = 0; i < tracksNum; i++)
+    {
+        std::cout << "track " << i << " train id: " << tracks[i] << "\n";
     }
 }
 
@@ -40,12 +46,6 @@ void Station::leavingMechanism()
 
         auto trainToLeave = dequeuePriority();
 
-        while(!trainToLeave->getIsAbleToLeave()) {
-
-        }
-
-        std::cout << "Train left:" << trainToLeave->getID() << " from track: " << trainToLeave->getTrackAt() << "\n";
-
         tracks[trainToLeave->getTrackAt()] = -1;
 
         trainToLeave->setNextSignal(SemaphoreEnum::GO_40KMH);
@@ -73,6 +73,12 @@ void Station::arrivingMechanism()
 
             while(trackToArrive == platformsNum)
             {
+                // std::cout << "track status: for train " << trainToArrive->getID() << "\n";
+                // for(int i = 0; i < tracksNum; i++)
+                // {
+                //     std::cout << "track " << i << " train id: " << tracks[i] << "\n";
+                // }
+
                 for(int i = 0; i < platformsNum; i++)
                 {
                     if(tracks[i] != -1)
@@ -83,6 +89,12 @@ void Station::arrivingMechanism()
 
                     break;
                 }
+
+                // std::cout << "track status after train " << trainToArrive->getID() << "\n";
+                // for(int i = 0; i < tracksNum; i++)
+                // {
+                //     std::cout << "track " << i << " train id: " << tracks[i] << "\n";
+                // }
             }
         }
         else
