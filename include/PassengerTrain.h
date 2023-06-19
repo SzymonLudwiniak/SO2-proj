@@ -12,7 +12,7 @@ public:
     void setDriver(int driverID_);
     void setTrackAt(int trackAt_);
     void setIsAllowedToLeave(bool isAllowedToLeave_);
-
+    RouteElement getFirstStation();
 
     int getTrackAt();
     int getID();

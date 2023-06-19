@@ -17,6 +17,11 @@ PassengerTrain::PassengerTrain(int priority_,int maxSpeed_, std::vector<RouteEle
     this->route = route_;
 }
 
+RouteElement PassengerTrain::getFirstStation()
+{
+    return this->route[0];
+}
+
 void PassengerTrain::setNextSignal(SemaphoreEnum nextSignal_)
 {
     nextSignal = nextSignal_;

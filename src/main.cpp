@@ -14,7 +14,8 @@
 #include "../include/RouteElement.h"
 #include "../include/Station.h"
 
-#define TRAINS_NUM 69
+int TRAINS_NUM;
+int STATION_NUM;
 
 void drawLine(fVec p1, fVec p2, char sign)
 {
@@ -22,7 +23,7 @@ void drawLine(fVec p1, fVec p2, char sign)
     versor.x = p2.x - p1.x;
     versor.y = p2.y - p1.y;
 
-    float verLen = fsqrt(versor.x * versor.x + versor.y * versor.y);
+    float verLen = sqrtf(versor.x * versor.x + versor.y * versor.y);
 
     versor.x /= verLen;
     versor.y /= verLen;
@@ -63,75 +64,96 @@ void drawTracks(std::vector<Station *> stations)
 
 int main()
 {
+    std::string STATION_NAMES[9] = {"Wlodawa", "Zary", "Twardogora", "Malin", "Raciborz", "Walbrzych",
+    "Trzebnica", "Nowa Sol", "Dzialoszyn"};
+
     srand(time(nullptr));
-    std::vector<Station *> stations;
-    stations.push_back(new Station("modes", 4, 4));
-    stations.push_back(new Station("dupaGolt", 3, 3));
-    stations.push_back(new Station("WiadGej", 6, 6));
-    stations.push_back(new Station("Shitovaty", 5, 5));
 
-    stations[0]->setPosition(15, 10);
-    stations[1]->setPosition(50, 30);
-    stations[2]->setPosition(80, 5);
-    stations[3]->setPosition(90, 20);
+    std::cout << "Type number of trains: \n";
+    std::cin >> TRAINS_NUM;
 
+    std::cout << "Type number of station (1-9):\n";
+    std::cin >> STATION_NUM;
 
-    std::vector<Train*> trains;
-    std::vector<std::thread> trainsThreads;
+    std::vector<Station *> stations(STATION_NUM);
+    std::vector<Train *> trains(TRAINS_NUM);
+    std::vector<std::thread> stationThreads(STATION_NUM * 2); // both leaving and arriving
+    std::vector<std::thread> trainThreads(TRAINS_NUM);
+    std::vector<std::thread> freeingRouteThreads(STATION_NUM);
+    std::vector<std::thread> trainsThreads(TRAINS_NUM);
 
     Canva canva({5, 1}, {120, 35});
     InfoBuffer buffer({5, 36}, {120, 20});
 
-    canva.addComponent(stations[0]);
-    canva.addComponent(stations[1]);
-    canva.addComponent(stations[2]);
-    canva.addComponent(stations[3]);
-
-    for(int i = 0; i < TRAINS_NUM; i++)
+    // creating stations
+    for(int i = 0; i < STATION_NUM; i++)
     {
-        RouteElement rt;
-        RouteElement rt2;
-        RouteElement rt3;
-        RouteElement rt4;
-        rt.station = stations[0];
-        rt.stopTime = rand() % 500 + 100;
-        rt2.station = stations[1];
-        rt2.stopTime = rand() % 100 + 500;
-        rt3.station = stations[2];
-        rt3.stopTime = rand() % 100 + 500;
-        rt4.station = stations[3];
-        rt4.stopTime = rand() % 100 + 500;
+        stations[i] = new Station(STATION_NAMES[i], rand() % 4 + 4, rand() % 2 + 2);
+        stations[i]->setPosition(rand() % 118, rand() % 33 );
+        canva.addComponent(stations[i]);
+    }
 
-        if(i % 2 == 0)
-            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2, rt3, rt4}));
-        else
-            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt4, rt3, rt2, rt}));
+    std::cout << "done stations\n";
+
+    // creating trains
+    for(int i = 0, k = 0; i < TRAINS_NUM; i++, k++)
+    {
+        int routeSize = rand() % STATION_NUM;
+
+        if(routeSize < 2)
+            routeSize = (routeSize + 3) % STATION_NUM;
+
+        std::vector<RouteElement> route(routeSize);
+
+        // creating routes
+        for(int j = 0; j < routeSize; j++)
+        {
+            RouteElement rt;
+            rt.station = stations[(j + k) % STATION_NUM];
+            rt.stopTime = rand() % 1000 + 1000;
+            route[j] = rt;
+        }
+
+        trains[i] = new PassengerTrain(rand() % 50, rand() % 20 + 100, route);
         
-        trains[i]->setPosition(rand()%120, rand()%40);
+        auto pos = route[0].station->getPosition();
+
+        trains[i]->setPosition(pos.x, pos.y);
+        route[0].station->addTrain(trains[i]);
         canva.addComponent(trains[i]);
     }
 
-    std::thread leave = std::thread(&Station::leavingMechanism, stations[0]);
-    std::thread leave2 = std::thread(&Station::leavingMechanism, stations[1]);
-    std::thread leave3 = std::thread(&Station::leavingMechanism, stations[2]);
-    std::thread leave4 = std::thread(&Station::leavingMechanism, stations[3]);
+    std::cout << "done trains\n";
 
-    std::thread arrive = std::thread(&Station::arrivingMechanism, stations[0]);
-    std::thread arrive2 = std::thread(&Station::arrivingMechanism, stations[1]);
-    std::thread arrive3 = std::thread(&Station::arrivingMechanism, stations[2]);
-    std::thread arrive4 = std::thread(&Station::arrivingMechanism, stations[3]);
-
-    std::thread route1 = std::thread(setFreeRoute, stations[0]);
-    std::thread route2 = std::thread(setFreeRoute, stations[1]);
-    std::thread route3 = std::thread(setFreeRoute, stations[2]);
-    std::thread route4 = std::thread(setFreeRoute, stations[3]);
-
-
-    for(int i = 0; i < TRAINS_NUM; i++)
+    // creating station threads
+    for(int i = 0, j = 0; i < STATION_NUM * 2; i++)
     {
-        trainsThreads.emplace_back(&Train::run, trains[i]);
+        if(i % 2 == 0)
+            stationThreads[i] = std::thread(&Station::arrivingMechanism, stations[j]);
+        else
+        {
+            stationThreads[i] = std::thread(&Station::leavingMechanism, stations[j]);
+            j++;
+        }
     }
 
+std::cout << "done stations threads\n";
+
+    // creating freeing route threads
+    for(int i = 0; i < STATION_NUM; i++)
+    {
+        freeingRouteThreads[i] = std::thread(setFreeRoute, stations[i]);
+    }
+
+    std::cout << "done statfreeingions\n";
+
+    // creating train threads
+    for(int i = 0; i < TRAINS_NUM; i++)
+    {
+        trainsThreads[i] = std::thread(&Train::run, trains[i]);
+    }
+
+std::cout << "done trains threads\n";
 
     // this is for ncurses initialization //
     WINDOW * w = initscr();
@@ -147,7 +169,7 @@ int main()
     do
     {   
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        clear();
+        erase();
         drawTracks(stations);
         canva.draw();
         buffer.draw();

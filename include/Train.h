@@ -17,6 +17,7 @@ public:
 
     virtual void setNextSignal(SemaphoreEnum nextSignal_) = 0;
     virtual void run() = 0;
+    virtual RouteElement getFirstStation() = 0;
 
     virtual int getTrackAt() = 0;
     virtual int getID() = 0;
