@@ -6,7 +6,8 @@
 
 #include "enums/SemaphoreEnum.h"
 #include "gui/Drawable.h"
-#include "RouteElement.h"
+
+struct RouteElement;
 
 
 class Train : public Drawable

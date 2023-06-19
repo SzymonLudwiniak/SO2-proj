@@ -3,13 +3,13 @@
 #include "../../include/gui/Canva.h"
 
 
-Canva::Canva(int posX, int posY, int width, int height)
+Canva::Canva(float posX, float posY, int width, int height)
 {
     setPosition({posX, posY});
     setSize({width, height});
 }
 
-Canva::Canva(sVec position, sVec size)
+Canva::Canva(fVec position, dVec size)
 {
     setPosition(position);
     setSize(size);
@@ -43,7 +43,7 @@ bool Canva::draw()
 
 void Canva::adjustCompPos(Drawable * component)
 {
-    sVec p = getPosition();
+    fVec p = getPosition();
     p.x += 1;
     p.y += 1;
     component->moveBy(p); // adjust position to canva
@@ -51,9 +51,9 @@ void Canva::adjustCompPos(Drawable * component)
 
 bool Canva::isInBounds(Drawable * component)
 {
-    sVec pos = getPosition();
-    sVec cPos = component->getPosition();
-    sVec size = getSize();
+    fVec pos = getPosition();
+    fVec cPos = component->getPosition();
+    dVec size = getSize();
 
     if(cPos.x < pos.x || cPos.x > pos.x + size.x ||
         cPos.y < pos.y || cPos.y > pos.y + size.y)

@@ -9,8 +9,8 @@
 class Canva : public ViewPort
 {
 public:
-    Canva(int posX, int posY, int width, int height);
-    Canva(sVec position, sVec size);
+    Canva(float posX, float posY, int width, int height);
+    Canva(fVec position, dVec size);
 
     bool addComponent(Drawable * component);
 

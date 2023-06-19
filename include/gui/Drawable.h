@@ -7,16 +7,16 @@ class Drawable
 {
 public:
     void moveBy(int x, int y);
-    void moveBy(sVec vec);
+    void moveBy(fVec vec);
 
-    void setPosition(int x, int y);
-    void setPosition(sVec position);
+    void setPosition(float x, float y);
+    void setPosition(fVec position);
 
-    sVec getPosition() const;
+    fVec getPosition() const;
 
     virtual bool draw();
 
 private:
-    sVec position;
+    fVec position;
 
 };

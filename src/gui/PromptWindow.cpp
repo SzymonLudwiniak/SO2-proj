@@ -4,7 +4,7 @@
 #include "../../include/gui/PromptWindow.h"
 
 
-PromptWindow::PromptWindow(sVec position, sVec size)
+PromptWindow::PromptWindow(fVec position, dVec size)
 {
     setPosition(position);
     setSize(size);
@@ -41,7 +41,7 @@ bool PromptWindow::draw()
     if(str.empty())
         return true;
 
-    sVec pos = getPosition();
+    fVec pos = getPosition();
     pos.x++;
     pos.y++;
 
@@ -63,8 +63,8 @@ void PromptWindow::drawBounds()
 
     attron(COLOR_PAIR(BASE_COLOR));
 
-    sVec pos = getPosition();
-    sVec size = getSize();
+    fVec pos = getPosition();
+    dVec size = getSize();
     move(pos.y, pos.x);
     hline('-', size.x);
     vline('|', size.y);

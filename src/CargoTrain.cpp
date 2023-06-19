@@ -1,4 +1,5 @@
 #include "../include/CargoTrain.h"
+#include "../include/RouteElement.h"
 
 CargoTrain::CargoTrain(int priority_, int id_, int maxSpeed_)
 {

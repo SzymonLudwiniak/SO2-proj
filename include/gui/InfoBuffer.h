@@ -9,8 +9,8 @@
 class InfoBuffer : public ViewPort
 {
 public:
-    InfoBuffer(int posX, int posY, int width, int height);
-    InfoBuffer(sVec position, sVec size);
+    InfoBuffer(float posX, float posY, int width, int height);
+    InfoBuffer(fVec position, dVec size);
 
     bool pushMessage(std::string message, unsigned short priority = 3);
 

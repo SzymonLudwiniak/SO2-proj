@@ -127,7 +127,7 @@ void Station::addTrain(Train* train_)
 
 bool Station::draw()
 {
-    sVec p = getPosition();
+    fVec p = getPosition();
     for(int y = 0; y < 3; y++)
         for(int x = 0; x < 3; x++)
             mvaddch(p.y+y, p.x+x, '#');

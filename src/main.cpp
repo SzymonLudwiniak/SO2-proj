@@ -10,9 +10,11 @@
 #include "../include/gui/Canva.h"
 #include "../include/gui/InfoBuffer.h"
 #include "../include/gui/PromptWindow.h"
+#include "../include/RouteElement.h"
 #include "../include/Station.h"
 
-#define TRAINS_NUM 5
+#define TRAINS_NUM 3
+
 
 [[noreturn]] void setFreeRoute(Station * station)
 {
@@ -28,89 +30,64 @@
 int main()
 {
     srand(time(nullptr));
-    Station * station = new Station("modes", 2, 3);
+    Station * station1 = new Station("modes", 2, 3);
+    Station * station2 = new Station("modes", 2, 3);
+
+    station1->setPosition(10, 10);
+    station2->setPosition(50, 30);
+
 
     std::vector<Train*> trains;
     std::vector<std::thread> trainsThreads;
 
+    Canva canva({5, 5}, {120, 40});
+
+    canva.addComponent(station1);
+    canva.addComponent(station2);
+
     for(int i = 0; i < TRAINS_NUM; i++)
     {
         RouteElement rt;
-        rt.station = station;
+        RouteElement rt2;
+        rt.station = station1;
+        rt.stopTime = rand() % 1000;
+        rt2.station = station2;
         rt.stopTime = rand() % 1000;
 
-        trains.push_back(new PassengerTrain(120, 120, {rt}));
-        station->addTrain(trains[i]);
+        trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2}));
+        trains[i]->setPosition(rand()%120, rand()%40);
+        canva.addComponent(trains[i]);
     }
 
-    std::thread leave = std::thread(&Station::leavingMechanism, station);
+    std::thread leave = std::thread(&Station::leavingMechanism, station1);
 
-    std::thread arrive = std::thread(&Station::arrivingMechanism, station);
+    std::thread arrive = std::thread(&Station::arrivingMechanism, station1);
 
-    std::thread route = std::thread(setFreeRoute, station);
+    std::thread route = std::thread(setFreeRoute, station1);
 
     for(int i = 0; i < TRAINS_NUM; i++)
     {
         trainsThreads.emplace_back(&Train::run, trains[i]);
     }
 
-    // route.join();
-    // leave.join();
-    // arrive.join();
 
-
-    // for(int i = 0; i < TRAINS_NUM; i++)
-    // {
-    //     trainsThreads[i].join();
-    // }
-
-    
-    Canva canva({20, 15}, {60, 20});
-    InfoBuffer buffer({20, 5}, {60, 10});
-    Drawable obj;
-    obj.setPosition(0, 0);
-    canva.addComponent(&obj);
-
-    for(int i = 0; i < TRAINS_NUM; i++)
-    {
-        auto train = trains[i];
-        train->setPosition(i + i, i + i);
-        canva.addComponent(train);
-    }
-
-    // this is for ncurses initialization
+    // this is for ncurses initialization //
     WINDOW * w = initscr();
     mousemask(ALL_MOUSE_EVENTS, NULL);
     mouseinterval(0);
     initColors();
     keypad(w, TRUE);
+    nodelay(w, TRUE);
     noecho();
-    //////////////////////////////////////
+    ////////////////////////////////////////
 
-    PromptWindow prompt({2, 2},{10, 5});
-    prompt.setString("arek\njest\ngejem");
-    MEVENT mEvent;
     int ch = 0;
     do
     {   
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
         clear();
-        buffer.draw();
         canva.draw();
-        prompt.draw();  
-        if(ch == KEY_MOUSE && getmouse(&mEvent) == OK)
-        {
-            sVec objPos = obj.getPosition();
-            sVec bufSize = buffer.getSize();
-            if((mEvent.bstate & BUTTON1_PRESSED) && 
-                mEvent.x == objPos.x && mEvent.y == objPos.y)
-            {
-                prompt.setVisible(true);
-            }
-            else
-            {
-                prompt.setVisible(false);
-            }
-        }
+    // } while(ch++ < 20);
     } while((ch = getch()) != 'q');
 
     endwin();

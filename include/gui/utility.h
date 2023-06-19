@@ -18,7 +18,13 @@
 
 void initColors();
 
-struct sVec
+struct fVec
+{
+    float x;
+    float y;
+};
+
+struct dVec
 {
     int x;
     int y;

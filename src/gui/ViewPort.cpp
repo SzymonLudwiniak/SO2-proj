@@ -4,12 +4,12 @@
 #include "../../include/gui/ViewPort.h"
 
 
-void ViewPort::setSize(sVec size)
+void ViewPort::setSize(dVec size)
 {
     this->size = size;
 }
 
-sVec ViewPort::getSize() const
+dVec ViewPort::getSize() const
 {
     return size;
 }
@@ -23,7 +23,7 @@ void ViewPort::drawBounds()
 
     attron(COLOR_PAIR(BORDER_COLOR));
 
-    sVec pos = getPosition();
+    fVec pos = getPosition();
     move(pos.y, pos.x);
     hline('#', size.x);
     vline('#', size.y);

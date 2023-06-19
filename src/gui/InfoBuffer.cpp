@@ -4,14 +4,14 @@
 #include "../../include/gui/InfoBuffer.h"
 
 
-InfoBuffer::InfoBuffer(int posX, int posY, int width, int height)
+InfoBuffer::InfoBuffer(float posX, float posY, int width, int height)
 {
     setPosition({posX, posY});
     setSize({width, height});
     messageLimit = height-1;
 }
 
-InfoBuffer::InfoBuffer(sVec position, sVec size)
+InfoBuffer::InfoBuffer(fVec position, dVec size)
 {
     setPosition(position);
     setSize(size);
@@ -31,8 +31,8 @@ bool InfoBuffer::pushMessage(std::string message, unsigned short priority)
 
 bool InfoBuffer::draw()
 {
-    sVec pos = getPosition();
-    sVec size = getSize();
+    fVec pos = getPosition();
+    dVec size = getSize();
     pos.y++;
     pos.x++;
 

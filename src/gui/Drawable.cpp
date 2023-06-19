@@ -9,24 +9,24 @@ void Drawable::moveBy(int x, int y)
     this->position.y += y;
 }
 
-void Drawable::moveBy(sVec vec)
+void Drawable::moveBy(fVec vec)
 {
     this->position.x += vec.x;
     this->position.y += vec.y;
 }
 
-void Drawable::setPosition(int x, int y)
+void Drawable::setPosition(float x, float y)
 {
     this->position.x = x;
     this->position.y = y;
 }
 
-void Drawable::setPosition(sVec position)
+void Drawable::setPosition(fVec position)
 {
     this->position = position;
 }
 
-sVec Drawable::getPosition() const
+fVec Drawable::getPosition() const
 {
     return position;
 }

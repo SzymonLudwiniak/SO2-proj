@@ -6,12 +6,12 @@
 class ViewPort : public Drawable
 {
 public:
-    void setSize(sVec size);
-    sVec getSize() const;
+    void setSize(dVec size);
+    dVec getSize() const;
 
 protected:
     virtual void drawBounds();
 
 private:
-    sVec size;
+    dVec size;
 };

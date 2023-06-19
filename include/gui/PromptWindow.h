@@ -8,7 +8,7 @@
 class PromptWindow : public ViewPort
 {
 public:
-    PromptWindow(sVec position, sVec size);
+    PromptWindow(fVec position, dVec size);
 
     void setVisible(bool visible);
     void setString(std::string str);
