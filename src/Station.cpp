@@ -44,7 +44,7 @@ void Station::leavingMechanism()
 
         tracks[trainToLeave->getTrackAt()] = -1;
 
-        trainToLeave->setNextSignal(SemaphoreEnum::GO_40KMH);
+      //  trainToLeave->setNextSignal(SemaphoreEnum::GO_MAX_SPEED);
         trainToLeave->setIsAllowedToLeave(true);
 
         this->isRouteFree = false;
@@ -100,13 +100,13 @@ void Station::arrivingMechanism()
             }
         }
 
-        trainToArrive->setNextSignal(SemaphoreEnum::STOP);
+      //  trainToArrive->setNextSignal(SemaphoreEnum::STOP);
         trainToArrive->setTrackAt(trackToArrive);
 
         enqueuePriority(trainToArrive);
         popQueue();
 
-        std::cout << "Train " << trainToArrive->getID() << " arrived on track: " << trainToArrive->getTrackAt() << "\n";
+      //  std::cout << "Train " << trainToArrive->getID() << " arrived on track: " << trainToArrive->getTrackAt() << "\n";
     }
 }
 

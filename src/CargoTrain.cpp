@@ -41,8 +41,6 @@ void CargoTrain::run()
 
         if(nextSignal == SemaphoreEnum::STOP)
             currentSpeed = 0;
-        else if(nextSignal == SemaphoreEnum::GO_40KMH)
-            currentSpeed = 40;
         else
             currentSpeed = maxSpeed;
     }

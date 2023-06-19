@@ -56,12 +56,15 @@ void PassengerTrain::run()
 
         // jest na trasie, semafory mu ustalaja predkosc
         if(nextSignal == SemaphoreEnum::STOP)
+        {
             currentSpeed = 0;
-        else if(nextSignal == SemaphoreEnum::GO_40KMH)
-            currentSpeed = 40;
+        }
         else
+        {
             currentSpeed = maxSpeed;
-
+            sVec pos = this->getPosition();
+            this->setPosition(pos.x + 1, pos.y + 1);
+        }
 
         // sjesli jest na trasie to pomija mechanizm wymiany pasazerów
         if(this->trackAt == -1)
@@ -69,12 +72,12 @@ void PassengerTrain::run()
 
         std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
 
-        std::cout << "Train " << id << " stopped at " << route[stationCounter].stationName << " for " << route[stationCounter].stopTime << "\n";
+       // std::cout << "Train " << id << " stopped for " << route[stationCounter].stopTime << "\n";
 
 
         while(!this->isAllowedToLeave) {}
 
-        std::cout << "Train " << getID() << " left from track: " << getTrackAt() << "\n";
+    //    std::cout << "Train " << getID() << " left from track: " << getTrackAt() << "\n";
 
         this->trackAt = -1;
         this->isAllowedToLeave = false;
@@ -82,5 +85,5 @@ void PassengerTrain::run()
 
     }
 
-     std::cout << "Train: " << id << " finished its route.\n";
+  //   std::cout << "Train: " << id << " finished its route.\n";
 }

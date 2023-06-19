@@ -39,7 +39,7 @@ protected:
     std::atomic<bool> isAbleToLeave{false};
     std::atomic<bool> isAllowedToLeave{false};
 
-    std::atomic<SemaphoreEnum> nextSignal {SemaphoreEnum::STOP};
+    std::atomic<SemaphoreEnum> nextSignal {SemaphoreEnum::GO_MAX_SPEED};
 
     std::string currentStation {""};
 

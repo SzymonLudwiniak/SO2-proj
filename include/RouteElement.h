@@ -1,8 +1,7 @@
-#include <string>
+class Station;
 
 struct RouteElement
 {
-    std::string stationName;
+    Station* station;
     int stopTime;
-    bool hasStoped {false};
 };

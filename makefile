@@ -4,7 +4,7 @@ INCLUDE=./include
 LIB = ./lib
 
 TARGET=trains
-FLAGS=-Wall -Wextra -g -std=c++20
+FLAGS=-Wall -Wextra -g -std=c++20 -pthread
 LINKED = -lncurses
 GXX = g++
 
