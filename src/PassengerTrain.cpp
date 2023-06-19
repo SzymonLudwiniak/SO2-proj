@@ -1,6 +1,7 @@
 #include "../include/PassengerTrain.h"
 #include "../include/RouteElement.h"
 #include "../include/Station.h"
+
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -86,8 +87,9 @@ void PassengerTrain::run()
         fVec pos = this->getPosition();
         fVec stationPos = route[stationCounter].station->getPosition();
 
-        if(abs(pos.x-stationPos.x) < 0.1 && abs(pos.y-stationPos.y) < 0.1)
+        if(abs(pos.x-stationPos.x) < 0.3 && abs(pos.y-stationPos.y) < 0.3)
         {
+            InfoBuffer::getInstance()->pushMessage("train arrived on station: " + route[stationCounter].station->name, MID_PRIORITY);
             route[stationCounter].station->addTrain(this);
         }
 
@@ -95,14 +97,12 @@ void PassengerTrain::run()
         if(this->trackAt == -1)
             continue;
 
+        InfoBuffer::getInstance()->pushMessage("Train " + std::to_string(id) + " stopped for " + std::to_string(route[stationCounter].stopTime) + "\n", LOW_PRIORITY);
         std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
-
-       // std::cout << "Train " << id << " stopped for " << route[stationCounter].stopTime << "\n";
-
 
         while(!this->isAllowedToLeave) {}
 
-    //    std::cout << "Train " << getID() << " left from track: " << getTrackAt() << "\n";
+        InfoBuffer::getInstance()->pushMessage("Train " + std::to_string(getID()) + " left from track: " + std::to_string(getTrackAt()) + "\n", TOP_PRIORITY);
 
         this->trackAt = -1;
         this->isAllowedToLeave = false;

@@ -3,12 +3,19 @@
 
 #include "../../include/gui/InfoBuffer.h"
 
+InfoBuffer * InfoBuffer::instance = nullptr;
+
+InfoBuffer * InfoBuffer::getInstance()
+{
+    return instance;
+}
 
 InfoBuffer::InfoBuffer(float posX, float posY, int width, int height)
 {
     setPosition({posX, posY});
     setSize({width, height});
     messageLimit = height-1;
+    InfoBuffer::instance = this;
 }
 
 InfoBuffer::InfoBuffer(fVec position, dVec size)
@@ -16,6 +23,7 @@ InfoBuffer::InfoBuffer(fVec position, dVec size)
     setPosition(position);
     setSize(size);
     messageLimit = size.y-1;
+    InfoBuffer::instance = this;
 }
 
 bool InfoBuffer::pushMessage(std::string message, unsigned short priority)

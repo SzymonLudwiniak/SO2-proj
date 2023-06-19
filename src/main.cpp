@@ -7,9 +7,9 @@
 #include <cstdlib>
 #include <thread>
 
-#include "../include/gui/Canva.h"
 #include "../include/gui/InfoBuffer.h"
 #include "../include/gui/PromptWindow.h"
+#include "../include/gui/Canva.h"
 #include "../include/RouteElement.h"
 #include "../include/Station.h"
 
@@ -40,7 +40,8 @@ int main()
     std::vector<Train*> trains;
     std::vector<std::thread> trainsThreads;
 
-    Canva canva({5, 5}, {120, 40});
+    Canva canva({5, 1}, {120, 35});
+    InfoBuffer buffer({5, 36}, {120, 20});
 
     canva.addComponent(station1);
     canva.addComponent(station2);
@@ -50,9 +51,9 @@ int main()
         RouteElement rt;
         RouteElement rt2;
         rt.station = station1;
-        rt.stopTime = rand() % 1000;
+        rt.stopTime = rand() % 1000 + 2000;
         rt2.station = station2;
-        rt.stopTime = rand() % 1000;
+        rt.stopTime = rand() % 1000 + 2000;
 
         trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2}));
         trains[i]->setPosition(rand()%120, rand()%40);
@@ -60,8 +61,10 @@ int main()
     }
 
     std::thread leave = std::thread(&Station::leavingMechanism, station1);
+    std::thread leave2 = std::thread(&Station::leavingMechanism, station2);
 
     std::thread arrive = std::thread(&Station::arrivingMechanism, station1);
+    std::thread arrive2 = std::thread(&Station::arrivingMechanism, station2);
 
     std::thread route = std::thread(setFreeRoute, station1);
 
@@ -87,6 +90,7 @@ int main()
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
         clear();
         canva.draw();
+        buffer.draw();
     // } while(ch++ < 20);
     } while((ch = getch()) != 'q');
 

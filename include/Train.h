@@ -6,6 +6,7 @@
 
 #include "enums/SemaphoreEnum.h"
 #include "gui/Drawable.h"
+#include "gui/InfoBuffer.h"
 
 struct RouteElement;
 
