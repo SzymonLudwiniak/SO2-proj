@@ -33,22 +33,22 @@ bool PassengerTrain::getIsAbleToLeave()
 
 void PassengerTrain::setDriver(int driverID_)
 {
-    driverID = driverID_;
+    this->driverID = driverID_;
 }
 
 void PassengerTrain::setTrackAt(int trackAt_)
 {
-    trackAt = trackAt_;
+    this->trackAt = trackAt_;
 }
 
 void PassengerTrain::setIsAllowedToLeave(bool isAllowedToLeave_)
 {
-    isAllowedToLeave = isAllowedToLeave_;
+    this->isAllowedToLeave = isAllowedToLeave_;
 }
 
 void PassengerTrain::run()
 {
-    while(stationCounter < (int) route.size())
+    while(this->stationCounter < (int) route.size())
     {
 
         // if no driver, train waits for the driver
@@ -64,7 +64,7 @@ void PassengerTrain::run()
 
 
         // sjesli jest na trasie to pomija mechanizm wymiany pasazerów
-        if(trackAt == -1)
+        if(this->trackAt == -1)
             continue;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
@@ -72,13 +72,13 @@ void PassengerTrain::run()
         std::cout << "Train " << id << " stopped at " << route[stationCounter].stationName << " for " << route[stationCounter].stopTime << "\n";
 
 
-        while(!isAllowedToLeave) {}
+        while(!this->isAllowedToLeave) {}
 
         std::cout << "Train " << getID() << " left from track: " << getTrackAt() << "\n";
 
-        trackAt = -1;
-        isAllowedToLeave = false;
-        stationCounter++;
+        this->trackAt = -1;
+        this->isAllowedToLeave = false;
+        this->stationCounter++;
 
     }
 

@@ -13,12 +13,6 @@ Station::Station(std::string name_, int tracksNum_, int platformsNum_)
     {
         tracks[i] = -1;
     }
-
-    std::cout << "track status:\n";
-    for(int i = 0; i < tracksNum; i++)
-    {
-        std::cout << "track " << i << " train id: " << tracks[i] << "\n";
-    }
 }
 
 Station::~Station()
@@ -73,12 +67,6 @@ void Station::arrivingMechanism()
 
             while(trackToArrive == platformsNum)
             {
-                // std::cout << "track status: for train " << trainToArrive->getID() << "\n";
-                // for(int i = 0; i < tracksNum; i++)
-                // {
-                //     std::cout << "track " << i << " train id: " << tracks[i] << "\n";
-                // }
-
                 for(int i = 0; i < platformsNum; i++)
                 {
                     if(tracks[i] != -1)
@@ -86,15 +74,9 @@ void Station::arrivingMechanism()
 
                     trackToArrive = i;
                     tracks[i] = trainToArrive->getID();
-
+                    
                     break;
                 }
-
-                // std::cout << "track status after train " << trainToArrive->getID() << "\n";
-                // for(int i = 0; i < tracksNum; i++)
-                // {
-                //     std::cout << "track " << i << " train id: " << tracks[i] << "\n";
-                // }
             }
         }
         else
@@ -107,7 +89,7 @@ void Station::arrivingMechanism()
                 {
                     if(tracks[i] != -1)
                         continue;
-
+                        
                     trackToArrive = i;
                     tracks[i] = trainToArrive->getID();
 
@@ -120,11 +102,9 @@ void Station::arrivingMechanism()
         trainToArrive->setTrackAt(trackToArrive);
 
         enqueuePriority(trainToArrive);
-        dequeue();
         popQueue();
 
-        std::cout << "Train " << trainToArrive->getID() << " arrived:" << trainToArrive->getID()
-                  << " on track: " << trainToArrive->getTrackAt() << "\n";
+        std::cout << "Train " << trainToArrive->getID() << " arrived on track: " << trainToArrive->getTrackAt() << "\n";
     }
 }
 
@@ -152,8 +132,7 @@ void Station::enqueue(Train* train_)
 Train* Station::dequeue()
 {
     std::lock_guard<std::mutex> lock(trainsToArriveMutex);
-    auto train = trainsToArrive.front();
-    return train;
+    return trainsToArrive.front();
 }
 
 void Station::popQueue()
@@ -171,9 +150,7 @@ void Station::enqueuePriority(Train* train_)
 Train* Station::dequeuePriority()
 {
     std::lock_guard<std::mutex> lock(trainsToLeaveMutex);
-    auto train = trainsToLeave.top();
-    //trainsToLeave.pop();
-    return train;
+    return trainsToLeave.top();
 }
 
 void Station::popPriority()
