@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <iostream>
+#include <ncurses.h>
 
 #include "../include/Station.h"
+
 
 Station::Station(std::string name_, int tracksNum_, int platformsNum_)
         : name(name_),
@@ -123,6 +125,15 @@ void Station::addTrain(Train* train_)
     enqueue(train_);
 }
 
+bool Station::draw()
+{
+    sVec p = getPosition();
+    for(int y = 0; y < 3; y++)
+        for(int x = 0; x < 3; x++)
+            mvaddch(p.y+y, p.x+x, '#');
+    return true;
+}
+
 void Station::enqueue(Train* train_)
 {
     std::lock_guard<std::mutex> lock(trainsToArriveMutex);
@@ -158,3 +169,4 @@ void Station::popPriority()
     std::lock_guard<std::mutex> lock(trainsToLeaveMutex);
     trainsToLeave.pop();
 }
+

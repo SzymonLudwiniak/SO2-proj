@@ -18,12 +18,14 @@ int main()
     obj.setPosition(0, 0);
     canva.addComponent(&obj);
 
+    // this is for ncurses initialization
     WINDOW * w = initscr();
     mousemask(ALL_MOUSE_EVENTS, NULL);
     mouseinterval(0);
     initColors();
     keypad(w, TRUE);
-    noecho();   
+    noecho();
+    //////////////////////////////////////
 
     PromptWindow prompt({2, 2},{10, 5});
     prompt.setString("arek\njest\ngejem");

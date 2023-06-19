@@ -5,10 +5,11 @@
 #include <atomic>
 
 #include "enums/SemaphoreEnum.h"
+#include "gui/Drawable.h"
 #include "RouteElement.h"
 
 
-class Train
+class Train : public Drawable
 {
 public:
 

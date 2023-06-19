@@ -13,9 +13,7 @@ all: clear build run
 
 #for now, there is no subdir makefiles, will fix later
 build: 
-
-$(GXX) $(FLAGS) $(SRC)/*.cpp $(SRC)/gui/*.cpp -o $(BIN)/$(TARGET) $(LINKED)
-
+	$(GXX) $(FLAGS) $(SRC)/*.cpp $(SRC)/gui/*.cpp -o $(BIN)/$(TARGET) $(LINKED)
 
 run: $(BIN)/$(TARGET)
 	$(BIN)/$(TARGET)

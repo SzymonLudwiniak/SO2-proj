@@ -6,8 +6,9 @@
 #include <condition_variable>
 
 #include "PassengerTrain.h"
+#include "gui/Drawable.h"
 
-class Station
+class Station : public Drawable
 {
 public:
 
@@ -25,6 +26,8 @@ public:
     const std::string name;
 
     void addTrain(Train* train_);
+
+    virtual bool draw();
 
 private:
 
