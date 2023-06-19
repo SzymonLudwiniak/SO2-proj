@@ -29,6 +29,8 @@ public:
 
     void addTrain(Train* train_);
 
+    void setTrainToLeave(Train* train_);
+
     virtual bool draw();
 
     PromptWindow prompt; // jebie mnie ładny kod, chce to szybko zrobić i elo

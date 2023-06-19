@@ -1,0 +1,376 @@
+==60473== drd, a thread error detector
+==60473== Copyright (C) 2006-2020, and GNU GPL'd, by Bart Van Assche.
+==60473== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==60473== Command: ./bin/trains
+==60473== Parent PID: 60472
+==60473== 
+--60473-- 
+--60473-- Valgrind options:
+--60473--    --tool=drd
+--60473--    -v
+--60473--    --log-file=threads.log
+--60473-- Contents of /proc/version:
+--60473--   Linux version 5.19.0-45-generic (buildd@lcy02-amd64-063) (x86_64-linux-gnu-gcc-12 (Ubuntu 12.2.0-3ubuntu1) 12.2.0, GNU ld (GNU Binutils for Ubuntu) 2.39) #46-Ubuntu SMP PREEMPT_DYNAMIC Wed Jun 7 09:08:58 UTC 2023
+--60473-- 
+--60473-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--60473-- Page sizes: currently 4096, max supported 4096
+--60473-- Valgrind library directory: /usr/libexec/valgrind
+--60473-- Reading syms from /home/szymon/programming/cpp/trains/bin/trains
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+--60473--   Considering /usr/lib/debug/.build-id/29/2e105c0bb3ee8e8f5b917f8af764373d206659.debug ..
+--60473--   .. build-id is valid
+--60473-- Reading syms from /usr/libexec/valgrind/drd-amd64-linux
+--60473--    object doesn't have a symbol table
+--60473--    object doesn't have a dynamic symbol table
+--60473-- Scheduler: using generic scheduler lock implementation.
+--60473-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==60473== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-60473-by-szymon-on-???
+==60473== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-60473-by-szymon-on-???
+==60473== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-60473-by-szymon-on-???
+==60473== 
+==60473== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==60473== don't want to do, unless you know exactly what you're doing,
+==60473== or are doing some strange experiment):
+==60473==   /usr/bin/vgdb --pid=60473 ...command...
+==60473== 
+==60473== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==60473==   /path/to/gdb ./bin/trains
+==60473== and then give GDB the following command
+==60473==   target remote | /usr/bin/vgdb --pid=60473
+==60473== --pid is optional if only one valgrind process is running
+==60473== 
+--60473-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--60473--    object doesn't have a symbol table
+--60473-- Reading syms from /usr/libexec/valgrind/vgpreload_drd-amd64-linux.so
+--60473--    object doesn't have a symbol table
+--60473-- REDIR: 0x40257b0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x486dc20 (strcmp)
+--60473-- REDIR: 0x4026dd0 (ld-linux-x86-64.so.2:strlen) redirected to 0x486d120 (strlen)
+--60473-- REDIR: 0x40249d0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4870df0 (mempcpy)
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/libncurses.so.6.3
+--60473--    object doesn't have a symbol table
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+--60473--    object doesn't have a symbol table
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+--60473--    object doesn't have a symbol table
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/libm.so.6
+--60473--   Considering /usr/lib/debug/.build-id/69/c0f56e574b311a0d256e8ede640fab11c1407d.debug ..
+--60473--   .. build-id is valid
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+--60473--    object doesn't have a symbol table
+--60473-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
+--60473--   Considering /usr/lib/debug/.build-id/d1/704d25fbbb72fa95d517b883131828c0883fe9.debug ..
+--60473--   .. build-id is valid
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb0710 (pthread_cond_broadca) W-> (0000.0) 0x0485ddb0 pthread_cond_broadcast@*
+--60473--     new: 0x04cb0710 (pthread_cond_broadca) W-> (0000.0) 0x0485dad0 pthread_cond_broadcast
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb0780 (pthread_cond_destroy) W-> (0000.0) 0x0485ae10 pthread_cond_destroy@*
+--60473--     new: 0x04cb0780 (pthread_cond_destroy) W-> (0000.0) 0x0485ab30 pthread_cond_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb07a0 (pthread_cond_init@GL) W-> (0000.0) 0x0485a530 pthread_cond_init@*
+--60473--     new: 0x04cb07a0 (pthread_cond_init@GL) W-> (0000.0) 0x0485a230 pthread_cond_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb07c0 (pthread_cond_signal@) W-> (0000.0) 0x0485d510 pthread_cond_signal@*
+--60473--     new: 0x04cb07c0 (pthread_cond_signal@) W-> (0000.0) 0x0485d230 pthread_cond_signal
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb0830 (pthread_cond_timedwa) W-> (0000.0) 0x0485c7f0 pthread_cond_timedwait@*
+--60473--     new: 0x04cb0830 (pthread_cond_timedwa) W-> (0000.0) 0x0485c2d0 pthread_cond_timedwait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb08c0 (pthread_cond_wait@GL) W-> (0000.0) 0x0485b8d0 pthread_cond_wait@*
+--60473--     new: 0x04cb08c0 (pthread_cond_wait@GL) W-> (0000.0) 0x0485b3d0 pthread_cond_wait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1150 (pthread_barrier_dest) W-> (0000.0) 0x04861ad0 pthread_barrier_destroy@*
+--60473--     new: 0x04cb1150 (pthread_barrier_dest) W-> (0000.0) 0x048617f0 pthread_barrier_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1150 (pthread_barrier_dest) W-> (0000.0) 0x04861ad0 pthread_barrier_destroy@*
+--60473--     new: 0x04cb1150 (pthread_barrier_dest) W-> (0000.0) 0x048617f0 pthread_barrier_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb11c0 (pthread_barrier_init) W-> (0000.0) 0x048611f0 pthread_barrier_init@*
+--60473--     new: 0x04cb11c0 (pthread_barrier_init) W-> (0000.0) 0x04860ef0 pthread_barrier_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb11c0 (pthread_barrier_init) W-> (0000.0) 0x048611f0 pthread_barrier_init@*
+--60473--     new: 0x04cb11c0 (pthread_barrier_init) W-> (0000.0) 0x04860ef0 pthread_barrier_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1210 (pthread_barrier_wait) W-> (0000.0) 0x04862390 pthread_barrier_wait@*
+--60473--     new: 0x04cb1210 (pthread_barrier_wait) W-> (0000.0) 0x04862090 pthread_barrier_wait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1210 (pthread_barrier_wait) W-> (0000.0) 0x04862390 pthread_barrier_wait@*
+--60473--     new: 0x04cb1210 (pthread_barrier_wait) W-> (0000.0) 0x04862090 pthread_barrier_wait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb14c0 (pthread_cancel@@GLIB) W-> (0000.0) 0x04853250 pthread_cancel@*
+--60473--     new: 0x04cb14c0 (pthread_cancel@@GLIB) W-> (0000.0) 0x04852f70 pthread_cancel
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb14c0 (pthread_cancel@@GLIB) W-> (0000.0) 0x04853250 pthread_cancel@*
+--60473--     new: 0x04cb14c0 (pthread_cancel@@GLIB) W-> (0000.0) 0x04852f70 pthread_cancel
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1710 (pthread_cond_broadca) W-> (0000.0) 0x0485ddb0 pthread_cond_broadcast@*
+--60473--     new: 0x04cb1710 (pthread_cond_broadca) W-> (0000.0) 0x0485dad0 pthread_cond_broadcast
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1a70 (pthread_cond_destroy) W-> (0000.0) 0x0485ae10 pthread_cond_destroy@*
+--60473--     new: 0x04cb1a70 (pthread_cond_destroy) W-> (0000.0) 0x0485ab30 pthread_cond_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1af0 (pthread_cond_init@@G) W-> (0000.0) 0x0485a530 pthread_cond_init@*
+--60473--     new: 0x04cb1af0 (pthread_cond_init@@G) W-> (0000.0) 0x0485a230 pthread_cond_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb1b30 (pthread_cond_signal@) W-> (0000.0) 0x0485d510 pthread_cond_signal@*
+--60473--     new: 0x04cb1b30 (pthread_cond_signal@) W-> (0000.0) 0x0485d230 pthread_cond_signal
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb2130 (pthread_cond_wait@@G) W-> (0000.0) 0x0485b8d0 pthread_cond_wait@*
+--60473--     new: 0x04cb2130 (pthread_cond_wait@@G) W-> (0000.0) 0x0485b3d0 pthread_cond_wait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb2590 (pthread_cond_timedwa) W-> (0000.0) 0x0485c7f0 pthread_cond_timedwait@*
+--60473--     new: 0x04cb2590 (pthread_cond_timedwa) W-> (0000.0) 0x0485c2d0 pthread_cond_timedwait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb3560 (pthread_create@@GLIB) W-> (0000.0) 0x04850af0 pthread_create@*
+--60473--     new: 0x04cb3560 (pthread_create@@GLIB) W-> (0000.0) 0x04850390 pthread_create
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb3560 (pthread_create@@GLIB) W-> (0000.0) 0x04850af0 pthread_create@*
+--60473--     new: 0x04cb3560 (pthread_create@@GLIB) W-> (0000.0) 0x04850390 pthread_create
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb4450 (pthread_detach@@GLIB) W-> (0000.0) 0x04852bf0 pthread_detach@*
+--60473--     new: 0x04cb4450 (pthread_detach@@GLIB) W-> (0000.0) 0x04852a30 pthread_detach
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb4d70 (pthread_join@@GLIBC_) W-> (0000.0) 0x04851f30 pthread_join@*
+--60473--     new: 0x04cb4d70 (pthread_join@@GLIBC_) W-> (0000.0) 0x048519b0 pthread_join
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb4d70 (pthread_join@@GLIBC_) W-> (0000.0) 0x04851f30 pthread_join@*
+--60473--     new: 0x04cb4d70 (pthread_join@@GLIBC_) W-> (0000.0) 0x048519b0 pthread_join
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb5da0 (pthread_mutex_destro) W-> (0000.0) 0x04855bd0 pthread_mutex_destroy@*
+--60473--     new: 0x04cb5da0 (pthread_mutex_destro) W-> (0000.0) 0x048556d0 pthread_mutex_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb5df0 (pthread_mutex_init@@) W-> (0000.0) 0x04854f10 pthread_mutex_init@*
+--60473--     new: 0x04cb5df0 (pthread_mutex_init@@) W-> (0000.0) 0x04854b30 pthread_mutex_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb66e0 (pthread_mutex_lock@@) W-> (0000.0) 0x04856ad0 pthread_mutex_lock@*
+--60473--     new: 0x04cb66e0 (pthread_mutex_lock@@) W-> (0000.0) 0x048565d0 pthread_mutex_lock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb7590 (pthread_mutex_timedl) W-> (0000.0) 0x048588f0 pthread_mutex_timedlock@*
+--60473--     new: 0x04cb7590 (pthread_mutex_timedl) W-> (0000.0) 0x048583d0 pthread_mutex_timedlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb7590 (pthread_mutex_timedl) W-> (0000.0) 0x048588f0 pthread_mutex_timedlock@*
+--60473--     new: 0x04cb7590 (pthread_mutex_timedl) W-> (0000.0) 0x048583d0 pthread_mutex_timedlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb75a0 (pthread_mutex_tryloc) W-> (0000.0) 0x048579d0 pthread_mutex_trylock@*
+--60473--     new: 0x04cb75a0 (pthread_mutex_tryloc) W-> (0000.0) 0x048574d0 pthread_mutex_trylock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb75a0 (pthread_mutex_tryloc) W-> (0000.0) 0x048579d0 pthread_mutex_trylock@*
+--60473--     new: 0x04cb75a0 (pthread_mutex_tryloc) W-> (0000.0) 0x048574d0 pthread_mutex_trylock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8120 (pthread_mutex_unlock) W-> (0000.0) 0x04859830 pthread_mutex_unlock@*
+--60473--     new: 0x04cb8120 (pthread_mutex_unlock) W-> (0000.0) 0x04859330 pthread_mutex_unlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8650 (pthread_once@@GLIBC_) W-> (0000.0) 0x04853e70 pthread_once@*
+--60473--     new: 0x04cb8650 (pthread_once@@GLIBC_) W-> (0000.0) 0x04853810 pthread_once
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8650 (pthread_once@@GLIBC_) W-> (0000.0) 0x04853e70 pthread_once@*
+--60473--     new: 0x04cb8650 (pthread_once@@GLIBC_) W-> (0000.0) 0x04853810 pthread_once
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8c90 (pthread_rwlock_destr) W-> (0000.0) 0x04867d10 pthread_rwlock_destroy@*
+--60473--     new: 0x04cb8c90 (pthread_rwlock_destr) W-> (0000.0) 0x04867a30 pthread_rwlock_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8c90 (pthread_rwlock_destr) W-> (0000.0) 0x04867d10 pthread_rwlock_destroy@*
+--60473--     new: 0x04cb8c90 (pthread_rwlock_destr) W-> (0000.0) 0x04867a30 pthread_rwlock_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8ca0 (pthread_rwlock_init@) W-> (0000.0) 0x04867430 pthread_rwlock_init@*
+--60473--     new: 0x04cb8ca0 (pthread_rwlock_init@) W-> (0000.0) 0x04867130 pthread_rwlock_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8ca0 (pthread_rwlock_init@) W-> (0000.0) 0x04867430 pthread_rwlock_init@*
+--60473--     new: 0x04cb8ca0 (pthread_rwlock_init@) W-> (0000.0) 0x04867130 pthread_rwlock_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8ce0 (pthread_rwlock_rdloc) W-> (0000.0) 0x048685b0 pthread_rwlock_rdlock@*
+--60473--     new: 0x04cb8ce0 (pthread_rwlock_rdloc) W-> (0000.0) 0x048682d0 pthread_rwlock_rdlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8ce0 (pthread_rwlock_rdloc) W-> (0000.0) 0x048685b0 pthread_rwlock_rdlock@*
+--60473--     new: 0x04cb8ce0 (pthread_rwlock_rdloc) W-> (0000.0) 0x048682d0 pthread_rwlock_rdlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8ec0 (pthread_rwlock_timed) W-> (0000.0) 0x04869710 pthread_rwlock_timedrdlock@*
+--60473--     new: 0x04cb8ec0 (pthread_rwlock_timed) W-> (0000.0) 0x04869410 pthread_rwlock_timedrdlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb8ec0 (pthread_rwlock_timed) W-> (0000.0) 0x04869710 pthread_rwlock_timedrdlock@*
+--60473--     new: 0x04cb8ec0 (pthread_rwlock_timed) W-> (0000.0) 0x04869410 pthread_rwlock_timedrdlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb90e0 (pthread_rwlock_timed) W-> (0000.0) 0x0486a010 pthread_rwlock_timedwrlock@*
+--60473--     new: 0x04cb90e0 (pthread_rwlock_timed) W-> (0000.0) 0x04869d10 pthread_rwlock_timedwrlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb94d0 (pthread_rwlock_tryrd) W-> (0000.0) 0x0486a8f0 pthread_rwlock_tryrdlock@*
+--60473--     new: 0x04cb94d0 (pthread_rwlock_tryrd) W-> (0000.0) 0x0486a610 pthread_rwlock_tryrdlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb94d0 (pthread_rwlock_tryrd) W-> (0000.0) 0x0486a8f0 pthread_rwlock_tryrdlock@*
+--60473--     new: 0x04cb94d0 (pthread_rwlock_tryrd) W-> (0000.0) 0x0486a610 pthread_rwlock_tryrdlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb9580 (pthread_rwlock_trywr) W-> (0000.0) 0x0486b190 pthread_rwlock_trywrlock@*
+--60473--     new: 0x04cb9580 (pthread_rwlock_trywr) W-> (0000.0) 0x0486aeb0 pthread_rwlock_trywrlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb9580 (pthread_rwlock_trywr) W-> (0000.0) 0x0486b190 pthread_rwlock_trywrlock@*
+--60473--     new: 0x04cb9580 (pthread_rwlock_trywr) W-> (0000.0) 0x0486aeb0 pthread_rwlock_trywrlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb9600 (pthread_rwlock_unloc) W-> (0000.0) 0x0486ba30 pthread_rwlock_unlock@*
+--60473--     new: 0x04cb9600 (pthread_rwlock_unloc) W-> (0000.0) 0x0486b750 pthread_rwlock_unlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb9600 (pthread_rwlock_unloc) W-> (0000.0) 0x0486ba30 pthread_rwlock_unlock@*
+--60473--     new: 0x04cb9600 (pthread_rwlock_unloc) W-> (0000.0) 0x0486b750 pthread_rwlock_unlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb97d0 (pthread_rwlock_wrloc) W-> (0000.0) 0x04868e50 pthread_rwlock_wrlock@*
+--60473--     new: 0x04cb97d0 (pthread_rwlock_wrloc) W-> (0000.0) 0x04868b70 pthread_rwlock_wrlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cb97d0 (pthread_rwlock_wrloc) W-> (0000.0) 0x04868e50 pthread_rwlock_wrlock@*
+--60473--     new: 0x04cb97d0 (pthread_rwlock_wrloc) W-> (0000.0) 0x04868b70 pthread_rwlock_wrlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba5c0 (pthread_spin_destroy) W-> (0000.0) 0x0485ef50 pthread_spin_destroy@*
+--60473--     new: 0x04cba5c0 (pthread_spin_destroy) W-> (0000.0) 0x0485ec70 pthread_spin_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba5c0 (pthread_spin_destroy) W-> (0000.0) 0x0485ef50 pthread_spin_destroy@*
+--60473--     new: 0x04cba5c0 (pthread_spin_destroy) W-> (0000.0) 0x0485ec70 pthread_spin_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba5d0 (pthread_spin_lock@@G) W-> (0000.0) 0x0485f7f0 pthread_spin_lock@*
+--60473--     new: 0x04cba5d0 (pthread_spin_lock@@G) W-> (0000.0) 0x0485f510 pthread_spin_lock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba5f0 (pthread_spin_trylock) W-> (0000.0) 0x04860090 pthread_spin_trylock@*
+--60473--     new: 0x04cba5f0 (pthread_spin_trylock) W-> (0000.0) 0x0485fdb0 pthread_spin_trylock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x0485e670 pthread_spin_init@*
+--60473--     new: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x0485e370 pthread_spin_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x0485e670 pthread_spin_init@*
+--60473--     new: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x04860930 pthread_spin_unlock@*
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x0485e670 pthread_spin_init@*
+--60473--     new: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x04860930 pthread_spin_unlock@*
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x0485e670 pthread_spin_init@*
+--60473--     new: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x04860650 pthread_spin_unlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x0485e670 pthread_spin_init@*
+--60473--     new: 0x04cba610 (pthread_spin_init@@G) W-> (0000.0) 0x04860650 pthread_spin_unlock
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba830 (sem_close@@GLIBC_2.3) W-> (0000.0) 0x04864890 sem_close@*
+--60473--     new: 0x04cba830 (sem_close@@GLIBC_2.3) W-> (0000.0) 0x048645b0 sem_close
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba830 (sem_close@@GLIBC_2.3) W-> (0000.0) 0x04864890 sem_close@*
+--60473--     new: 0x04cba830 (sem_close@@GLIBC_2.3) W-> (0000.0) 0x048645b0 sem_close
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba870 (sem_destroy@@GLIBC_2) W-> (0000.0) 0x04863570 sem_destroy@*
+--60473--     new: 0x04cba870 (sem_destroy@@GLIBC_2) W-> (0000.0) 0x04863290 sem_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba870 (sem_destroy@@GLIBC_2) W-> (0000.0) 0x04863570 sem_destroy@*
+--60473--     new: 0x04cba870 (sem_destroy@@GLIBC_2) W-> (0000.0) 0x04863290 sem_destroy
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba890 (sem_init@@GLIBC_2.34) W-> (0000.0) 0x04862c90 sem_init@*
+--60473--     new: 0x04cba890 (sem_init@@GLIBC_2.34) W-> (0000.0) 0x04862990 sem_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba890 (sem_init@@GLIBC_2.34) W-> (0000.0) 0x04862c90 sem_init@*
+--60473--     new: 0x04cba890 (sem_init@@GLIBC_2.34) W-> (0000.0) 0x04862990 sem_init
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba8d0 (sem_open@@GLIBC_2.34) W-> (0000.0) 0x04863eb0 sem_open@*
+--60473--     new: 0x04cba8d0 (sem_open@@GLIBC_2.34) W-> (0000.0) 0x04863b30 sem_open
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cba8d0 (sem_open@@GLIBC_2.34) W-> (0000.0) 0x04863eb0 sem_open@*
+--60473--     new: 0x04cba8d0 (sem_open@@GLIBC_2.34) W-> (0000.0) 0x04863b30 sem_open
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbac50 (sem_post@@GLIBC_2.34) W-> (0000.0) 0x04866b70 sem_post@*
+--60473--     new: 0x04cbac50 (sem_post@@GLIBC_2.34) W-> (0000.0) 0x04866890 sem_post
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbac50 (sem_post@@GLIBC_2.34) W-> (0000.0) 0x04866b70 sem_post@*
+--60473--     new: 0x04cbac50 (sem_post@@GLIBC_2.34) W-> (0000.0) 0x04866890 sem_post
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbb270 (sem_timedwait@@GLIBC) W-> (0000.0) 0x04866290 sem_timedwait@*
+--60473--     new: 0x04cbb270 (sem_timedwait@@GLIBC) W-> (0000.0) 0x04865f90 sem_timedwait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbb480 (sem_wait@@GLIBC_2.34) W-> (0000.0) 0x04865130 sem_wait@*
+--60473--     new: 0x04cbb480 (sem_wait@@GLIBC_2.34) W-> (0000.0) 0x04864e50 sem_wait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbb480 (sem_wait@@GLIBC_2.34) W-> (0000.0) 0x04865130 sem_wait@*
+--60473--     new: 0x04cbb480 (sem_wait@@GLIBC_2.34) W-> (0000.0) 0x04864e50 sem_wait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbb4c0 (sem_trywait@@GLIBC_2) W-> (0000.0) 0x048659d0 sem_trywait@*
+--60473--     new: 0x04cbb4c0 (sem_trywait@@GLIBC_2) W-> (0000.0) 0x048656f0 sem_trywait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cbb4c0 (sem_trywait@@GLIBC_2) W-> (0000.0) 0x048659d0 sem_trywait@*
+--60473--     new: 0x04cbb4c0 (sem_trywait@@GLIBC_2) W-> (0000.0) 0x048656f0 sem_trywait
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cc41d0 (memalign            ) R-> (1011.0) 0x0484f3c0 memalign
+--60473--     new: 0x04cc41d0 (memalign            ) R-> (1017.0) 0x0484f390 aligned_alloc
+==60473== WARNING: new redirection conflicts with existing -- ignoring it
+--60473--     old: 0x04cc41d0 (memalign            ) R-> (1011.0) 0x0484f3c0 memalign
+--60473--     new: 0x04cc41d0 (memalign            ) R-> (1017.0) 0x0484f360 aligned_alloc
+--60473-- REDIR: 0x4ccb040 (libc.so.6:strnlen) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccb0d0 (libc.so.6:strpbrk) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc91a0 (libc.so.6:strcmp) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ce0660 (libc.so.6:wcsnlen) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc82b0 (libc.so.6:memset) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cded30 (libc.so.6:wcslen) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc7790 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cdeb40 (libc.so.6:wcschr) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc9090 (libc.so.6:index) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccb100 (libc.so.6:rindex) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cdebd0 (libc.so.6:wcscmp) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc8500 (libc.so.6:stpncpy) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cdf180 (libc.so.6:wmemchr) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccaee0 (libc.so.6:strncmp) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc8570 (libc.so.6:strcasecmp) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cca3f0 (libc.so.6:strcspn) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cdec60 (libc.so.6:wcscpy) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc9010 (libc.so.6:strcat) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccadd0 (libc.so.6:strncasecmp_l) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc7690 (libc.so.6:bcmp) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc8220 (libc.so.6:memrchr) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc9110 (libc.so.6:strchrnul) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cca370 (libc.so.6:strcpy) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc8610 (libc.so.6:strcasecmp_l) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccaca0 (libc.so.6:strlen) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccaf80 (libc.so.6:strncpy) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc8480 (libc.so.6:stpcpy) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc7fe0 (libc.so.6:memmove) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+==60473== Preferring higher priority redirection:
+--60473--     old: 0x04d94c00 (__memcpy_avx_unalign) R-> (2018.0) 0x0486eda0 __memcpy_avx_unaligned_erms
+--60473--     new: 0x04d94c00 (__memcpy_avx_unalign) R-> (2018.1) 0x048700b0 memmove
+--60473-- REDIR: 0x4cc7600 (libc.so.6:memchr) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccb2c0 (libc.so.6:strspn) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc8100 (libc.so.6:mempcpy) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccad30 (libc.so.6:strncasecmp) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4cc83b0 (libc.so.6:rawmemchr) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccae70 (libc.so.6:strncat) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4d50320 (libc.so.6:__memcpy_chk) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4ccbaf0 (libc.so.6:strstr) redirected to 0x483b220 (_vgnU_ifunc_wrapper)
+--60473-- REDIR: 0x4d9acf0 (libc.so.6:__strrchr_avx2) redirected to 0x486ccc0 (rindex)
+--60473-- REDIR: 0x4cc3660 (libc.so.6:malloc) redirected to 0x4849b60 (malloc)
+--60473-- REDIR: 0x4cb8650 (libc.so.6:pthread_once@@GLIBC_2.34) redirected to 0x4853e70 (pthread_once@*)
+--60473-- REDIR: 0x4d983a0 (libc.so.6:__strlen_avx2) redirected to 0x486d000 (strlen)
+--60473-- REDIR: 0x4d944a0 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x486fce0 (bcmp)
+--60473-- REDIR: 0x4d97ab0 (libc.so.6:__strcmp_avx2) redirected to 0x486db20 (strcmp)
+--60473-- REDIR: 0x499cab0 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x484a2e0 (operator new(unsigned long))
+--60473-- REDIR: 0x4d94c00 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48700b0 (memmove)
+--60473-- REDIR: 0x499cb10 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x484b5c0 (operator new[](unsigned long))
+--60473-- REDIR: 0x499ad60 (libstdc++.so.6:operator delete(void*, unsigned long)) redirected to 0x484ce40 (operator delete(void*, unsigned long))
+--60473-- REDIR: 0x4cb3560 (libc.so.6:pthread_create@@GLIBC_2.34) redirected to 0x4850af0 (pthread_create@*)
+--60473-- REDIR: 0x4cb5df0 (libc.so.6:pthread_mutex_init@@GLIBC_2.2.5) redirected to 0x4854f10 (pthread_mutex_init@*)
+--60473-- REDIR: 0x4cb07a0 (libc.so.6:pthread_cond_init@GLIBC_2.2.5) redirected to 0x485a530 (pthread_cond_init@*)
+--60473-- REDIR: 0x4cc4a60 (libc.so.6:calloc) redirected to 0x484ed10 (calloc)
+--60473-- REDIR: 0x4cb66e0 (libc.so.6:pthread_mutex_lock@@GLIBC_2.2.5) redirected to 0x4856ad0 (pthread_mutex_lock@*)
+--60473-- REDIR: 0x4cb8120 (libc.so.6:pthread_mutex_unlock@@GLIBC_2.2.5) redirected to 0x4859830 (pthread_mutex_unlock@*)
+--60473-- REDIR: 0x4cb08c0 (libc.so.6:pthread_cond_wait@GLIBC_2.2.5) redirected to 0x485b8d0 (pthread_cond_wait@*)
+--60473-- REDIR: 0x4cb2130 (libc.so.6:pthread_cond_wait@@GLIBC_2.3.2) redirected to 0x485b8d0 (pthread_cond_wait@*)
+--60473-- REDIR: 0x4cb07c0 (libc.so.6:pthread_cond_signal@GLIBC_2.2.5) redirected to 0x485d510 (pthread_cond_signal@*)
+--60473-- REDIR: 0x4cb1b30 (libc.so.6:pthread_cond_signal@@GLIBC_2.3.2) redirected to 0x485d510 (pthread_cond_signal@*)
+--60473-- REDIR: 0x4cb5da0 (libc.so.6:pthread_mutex_destroy@@GLIBC_2.2.5) redirected to 0x4855bd0 (pthread_mutex_destroy@*)
+--60473-- REDIR: 0x4cb0780 (libc.so.6:pthread_cond_destroy@GLIBC_2.2.5) redirected to 0x485ae10 (pthread_cond_destroy@*)
+--60473-- REDIR: 0x4cc3970 (libc.so.6:free) redirected to 0x484c550 (free)
+==60473== 
+==60473== Process terminating with default action of signal 2 (SIGINT)
+==60473==    at 0x111FE9: Station::leavingMechanism() (Station.cpp:35)
+==60473==    by 0x11AFF7: void std::__invoke_impl<void, void (Station::*)(), Station*>(std::__invoke_memfun_deref, void (Station::*&&)(), Station*&&) (invoke.h:74)
+==60473==    by 0x11AE32: std::__invoke_result<void (Station::*)(), Station*>::type std::__invoke<void (Station::*)(), Station*>(void (Station::*&&)(), Station*&&) (invoke.h:96)
+==60473==    by 0x11AC52: void std::thread::_Invoker<std::tuple<void (Station::*)(), Station*> >::_M_invoke<0ul, 1ul>(std::_Index_tuple<0ul, 1ul>) (std_thread.h:252)
+==60473==    by 0x11AB6B: std::thread::_Invoker<std::tuple<void (Station::*)(), Station*> >::operator()() (std_thread.h:259)
+==60473==    by 0x11AB0B: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (Station::*)(), Station*> > >::_M_run() (std_thread.h:210)
+==60473==    by 0x49CA3A2: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==60473==    by 0x485037A: ??? (in /usr/libexec/valgrind/vgpreload_drd-amd64-linux.so)
+==60473==    by 0x4CB3401: start_thread (pthread_create.c:442)
+==60473==    by 0x4D41743: clone (clone.S:100)
+==60473== 
+==60473== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 8 from 4)
+--60473-- 
+--60473-- used_suppression:      8 drd-ld /usr/libexec/valgrind/default.supp:566
+==60473== 
+==60473== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 8 from 4)

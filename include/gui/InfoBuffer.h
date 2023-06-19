@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <mutex>
 
 #include "ViewPort.h"
 
@@ -20,6 +21,8 @@ public:
 
 private:
     static InfoBuffer * instance;
+
+    std::mutex mutex;
 
     std::vector<std::pair<std::string, unsigned short>> logs;
 

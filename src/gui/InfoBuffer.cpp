@@ -28,6 +28,7 @@ InfoBuffer::InfoBuffer(fVec position, dVec size)
 
 bool InfoBuffer::pushMessage(std::string message, unsigned short priority)
 {
+    std::lock_guard<std::mutex> lock(mutex);
     logs.push_back({message, priority});
     if(logs.size() > messageLimit)
     {

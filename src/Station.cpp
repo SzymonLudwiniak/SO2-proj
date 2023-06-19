@@ -3,13 +3,14 @@
 #include <ncurses.h>
 
 #include "../include/Station.h"
+#include "../include/gui/InfoBuffer.h"
 
 
 Station::Station(std::string name_, int tracksNum_, int platformsNum_)
         : name(name_),
           tracksNum(tracksNum_),
           platformsNum(platformsNum_),
-          prompt({0, 0}, {10, tracksNum_+2})
+          prompt({0, 0}, {10, tracksNum_+1})
 {
     tracks = new int[tracksNum];
     for(int i = 0; i < tracksNum; i++)
@@ -77,7 +78,7 @@ void Station::arrivingMechanism()
 
                     trackToArrive = i;
                     tracks[i] = trainToArrive->getID();
-                    
+                    InfoBuffer::getInstance()->pushMessage("train " + std::to_string(trainToArrive->getID()) + " is on track " + std::to_string(i));
                     break;
                 }
             }
@@ -103,8 +104,6 @@ void Station::arrivingMechanism()
 
       //  trainToArrive->setNextSignal(SemaphoreEnum::STOP);
         trainToArrive->setTrackAt(trackToArrive);
-
-        enqueuePriority(trainToArrive);
         popQueue();
 
       //  std::cout << "Train " << trainToArrive->getID() << " arrived on track: " << trainToArrive->getTrackAt() << "\n";
@@ -124,6 +123,11 @@ bool Station::getIsRouteFree()
 void Station::addTrain(Train* train_)
 {
     enqueue(train_);
+}
+
+void Station::setTrainToLeave(Train* train_)
+{
+    enqueuePriority(train_);
 }
 
 bool Station::draw()

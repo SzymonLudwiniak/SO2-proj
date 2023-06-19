@@ -29,5 +29,10 @@ memtest: $(BIN)/$(TARGET)
          --show-leak-kinds=all \
          --track-origins=yes \
          --verbose \
+		 --fair-sched=yes \
          --log-file=valgrind-out.txt \
 		 $(BIN)/$(TARGET)
+
+threadtest: $(BIN)/$(TARGET)
+	valgrind --tool=drd -v --log-file=threads.log \
+	$(BIN)/$(TARGET)

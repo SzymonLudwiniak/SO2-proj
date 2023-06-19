@@ -27,6 +27,8 @@ public:
     virtual void setTrackAt(int trackAt_) = 0;
     virtual void setIsAllowedToLeave(bool isAllowedToLeave_) = 0;
 
+    bool operator<(const Train & other_);
+
 protected:
 
     static std::atomic<int> trainCounter;

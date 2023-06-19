@@ -101,16 +101,16 @@ void PassengerTrain::run()
         InfoBuffer::getInstance()->pushMessage("Train " + std::to_string(id) + " stopped for " + std::to_string(route[stationCounter].stopTime) + "\n", LOW_PRIORITY);
         std::this_thread::sleep_for(std::chrono::milliseconds(route[stationCounter].stopTime));
 
+        route[stationCounter].station->setTrainToLeave(this);
         while(!this->isAllowedToLeave) {}
 
         InfoBuffer::getInstance()->pushMessage("Train " + std::to_string(getID()) + " left from track: " + std::to_string(getTrackAt()) + "\n", TOP_PRIORITY);
 
-        this->trackAt = -1;
-        this->isAllowedToLeave = false;
+        this->setTrackAt(-1);
+        this->setIsAllowedToLeave(false);
         this->stationCounter++;
         this->hasArrived = false;
-
     }
 
-  InfoBuffer::getInstance()->pushMessage("Train: " + std::to_string(id) + " finished its route.\n");
+    InfoBuffer::getInstance()->pushMessage("Train: " + std::to_string(id) + " finished its route.\n");
 }

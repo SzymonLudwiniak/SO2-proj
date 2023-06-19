@@ -13,7 +13,7 @@
 #include "../include/RouteElement.h"
 #include "../include/Station.h"
 
-#define TRAINS_NUM 3
+#define TRAINS_NUM 69
 
 
 [[noreturn]] void setFreeRoute(Station * station)
@@ -22,7 +22,7 @@
     {
         while(!station->getIsRouteFree()) {}
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
         station->setIsRouteFree(true);
     }
 }
@@ -31,11 +31,13 @@ int main()
 {
     srand(time(nullptr));
     std::vector<Station *> stations;
-    stations.push_back(new Station("modes", 2, 3));
-    stations.push_back(new Station("dupaGolt", 2, 3));
+    stations.push_back(new Station("modes", 4, 4));
+    stations.push_back(new Station("dupaGolt", 3, 3));
+    stations.push_back(new Station("WiadGej", 6, 6));
 
     stations[0]->setPosition(15, 10);
     stations[1]->setPosition(50, 30);
+    stations[2]->setPosition(80, 5);
 
 
     std::vector<Train*> trains;
@@ -46,20 +48,24 @@ int main()
 
     canva.addComponent(stations[0]);
     canva.addComponent(stations[1]);
+    canva.addComponent(stations[2]);
 
     for(int i = 0; i < TRAINS_NUM; i++)
     {
         RouteElement rt;
         RouteElement rt2;
+        RouteElement rt3;
         rt.station = stations[0];
-        rt.stopTime = rand() % 1000 + 2000;
+        rt.stopTime = rand() % 500 + 100;
         rt2.station = stations[1];
-        rt2.stopTime = rand() % 1000 + 2000;
+        rt2.stopTime = rand() % 100 + 500;
+        rt3.station = stations[2];
+        rt3.stopTime = rand() % 100 + 500;
 
         if(i % 2 == 0)
-            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2}));
+            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2, rt3}));
         else
-            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt2, rt}));
+            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt3, rt2, rt}));
         
         trains[i]->setPosition(rand()%120, rand()%40);
         canva.addComponent(trains[i]);
