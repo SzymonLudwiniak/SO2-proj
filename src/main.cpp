@@ -64,9 +64,6 @@ void drawTracks(std::vector<Station *> stations)
 
 int main()
 {
-    std::string STATION_NAMES[9] = {"Wlodawa", "Zary", "Twardogora", "Malin", "Raciborz", "Walbrzych",
-    "Trzebnica", "Nowa Sol", "Dzialoszyn"};
-
     srand(time(nullptr));
 
     std::cout << "Type number of trains: \n";
@@ -82,18 +79,25 @@ int main()
     std::vector<std::thread> freeingRouteThreads(STATION_NUM);
     std::vector<std::thread> trainsThreads(TRAINS_NUM);
 
+    stations[0] = new Station("Wlodawa", 8, 4);
+    stations[0]->setPosition(5, 10);
+    stations[1] = new Station("Zary", 4, 2);
+    stations[1]->setPosition(60, 7);
+    stations[2] = new Station("Twardogora", 6, 3);
+    stations[2]->setPosition(100, 12);
+    stations[3] = new Station("Malin", 8, 2);
+    stations[3]->setPosition(35, 27);
+    stations[4] = new Station("Raciborz", 8, 4);
+    stations[4]->setPosition(81, 30);
+
     Canva canva({5, 1}, {120, 35});
     InfoBuffer buffer({5, 36}, {120, 20});
 
     // creating stations
     for(int i = 0; i < STATION_NUM; i++)
     {
-        stations[i] = new Station(STATION_NAMES[i], rand() % 4 + 4, rand() % 2 + 2);
-        stations[i]->setPosition(rand() % 118, rand() % 33 );
         canva.addComponent(stations[i]);
     }
-
-    std::cout << "done stations\n";
 
     // creating trains
     for(int i = 0, k = 0; i < TRAINS_NUM; i++, k++)
@@ -101,12 +105,12 @@ int main()
         int routeSize = rand() % STATION_NUM;
 
         if(routeSize < 2)
-            routeSize = (routeSize + 3) % STATION_NUM;
+            routeSize = (routeSize + 2) % STATION_NUM;
 
         std::vector<RouteElement> route(routeSize);
 
         // creating routes
-        for(int j = 0; j < routeSize; j++)
+        for(int j = 0; j < routeSize; j++, k++)
         {
             RouteElement rt;
             rt.station = stations[(j + k) % STATION_NUM];
@@ -123,8 +127,6 @@ int main()
         canva.addComponent(trains[i]);
     }
 
-    std::cout << "done trains\n";
-
     // creating station threads
     for(int i = 0, j = 0; i < STATION_NUM * 2; i++)
     {
@@ -137,23 +139,17 @@ int main()
         }
     }
 
-std::cout << "done stations threads\n";
-
     // creating freeing route threads
     for(int i = 0; i < STATION_NUM; i++)
     {
         freeingRouteThreads[i] = std::thread(setFreeRoute, stations[i]);
     }
 
-    std::cout << "done statfreeingions\n";
-
     // creating train threads
     for(int i = 0; i < TRAINS_NUM; i++)
     {
         trainsThreads[i] = std::thread(&Train::run, trains[i]);
     }
-
-std::cout << "done trains threads\n";
 
     // this is for ncurses initialization //
     WINDOW * w = initscr();
