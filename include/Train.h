@@ -2,9 +2,10 @@
 
 #include <string>
 #include <vector>
-#include <thread>
+#include <atomic>
 
 #include "enums/SemaphoreEnum.h"
+#include "RouteElement.h"
 
 
 class Train
@@ -14,19 +15,36 @@ public:
     virtual void setNextSignal(SemaphoreEnum nextSignal_) = 0;
     virtual void run() = 0;
 
+    virtual int getTrackAt() = 0;
+    virtual int getID() = 0;
+
+    virtual bool getIsAbleToLeave() = 0;
+
+    virtual void setDriver(int driverID_) = 0;
+    virtual void setTrackAt(int trackAt_) = 0;
+    virtual void setIsAllowedToLeave(bool isAllowedToLeave_) = 0;
+
 protected:
 
-    int priority;
-    int id;
+    static std::atomic<int> trainCounter;
+
     int maxSpeed;
     int currentSpeed {0};
 
-    SemaphoreEnum nextSignal;
+    std::atomic<int> priority;
+    std::atomic<int> id;
 
-    std::vector<std::string> route;
+    std::atomic<int> trackAt{-1};
+    std::atomic<bool> isAbleToLeave{false};
+    std::atomic<bool> isAllowedToLeave{false};
 
-    int driversID{-1};
+    std::atomic<SemaphoreEnum> nextSignal {SemaphoreEnum::STOP};
 
-    std::thread trainThread;
+    std::string currentStation {""};
+
+    std::vector<RouteElement> route;
+    int stationCounter{0};
+
+    int driverID{-1};
 
 };
