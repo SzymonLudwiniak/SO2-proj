@@ -1,72 +1,57 @@
-#include "../include/Station.h"
 
-#include <thread>
-#include <time.h>
 #include <iostream>
-#include <cstdlib>
+#include <vector>
+#include <string>
+#include <ncurses.h>
+#include <ctime>
 
-#define TRAINS_NUM 5
-
-
-[[noreturn]] void routeFreeTh(Station* st)
-{
-    while(true)
-    {
-        while(st->getIsRouteFree()) {}
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(4000));
-
-        st->setIsRouteFree(true);
-    }
-
-}
+#include "../include/gui/Canva.h"
+#include "../include/gui/InfoBuffer.h"
+#include "../include/gui/PromptWindow.h"
 
 int main()
 {
-    srand(time(nullptr));
+    srand(time(NULL));
+    Canva canva({20, 15}, {60, 20});
+    InfoBuffer buffer({20, 5}, {60, 10});
+    Drawable obj;
+    obj.setPosition(0, 0);
+    canva.addComponent(&obj);
 
-    std::vector<Train> trains;
+    WINDOW * w = initscr();
+    mousemask(ALL_MOUSE_EVENTS, NULL);
+    mouseinterval(0);
+    initColors();
+    keypad(w, TRUE);
+    noecho();   
 
-    RouteElement rt;
+    PromptWindow prompt({2, 2},{10, 5});
+    prompt.setString("arek\njest\ngejem");
+    MEVENT mEvent;
+    int ch = 0;
+    do
+    {   
+        clear();
+        buffer.draw();
+        canva.draw();
+        prompt.draw();  
+        if(ch == KEY_MOUSE && getmouse(&mEvent) == OK)
+        {
+            sVec objPos = obj.getPosition();
+            sVec bufSize = buffer.getSize();
+            if((mEvent.bstate & BUTTON1_PRESSED) && 
+                mEvent.x == objPos.x && mEvent.y == objPos.y)
+            {
+                prompt.setVisible(true);
+            }
+            else
+            {
+                prompt.setVisible(false);
+            }
+        }
+    } while((ch = getch()) != 'q');
 
-    Station st("modes", 3, 2);
-
-    std::vector<Train*> passTrains(TRAINS_NUM, nullptr);
-
-    for(int i = 0; i < TRAINS_NUM; i++)
-    {
-        RouteElement rt;
-        rt.stationName = "modes";
-        rt.stopTime = rand() % 4000 + 1000;
-
-
-        passTrains[i] = new PassengerTrain(100, 120, {rt});
-        st.addTrain(passTrains[i]);
-    }
-
-    std::vector<std::thread> passTrainsThreads;
-
-    std::thread stationThLeave = std::thread(&Station::leavingMechanism, &st);
-    std::thread stationThArrive = std::thread(&Station::arrivingMechanism, &st);
-
-    std::thread setRouteFreeTH = std::thread(routeFreeTh, &st);
-
-    for(int i = 0; i < TRAINS_NUM; i++)
-    {
-        passTrainsThreads.emplace_back(&Train::run, passTrains[i]);
-    }
-
-
-
-    stationThLeave.join();
-    stationThArrive.join();
-
-    for(int i = 0; i < TRAINS_NUM; i++)
-    {
-        passTrainsThreads[i].join();
-    }
-
-    setRouteFreeTH.join();
+    endwin();
 
     return 0;
 }
