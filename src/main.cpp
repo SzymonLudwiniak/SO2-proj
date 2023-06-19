@@ -30,11 +30,12 @@
 int main()
 {
     srand(time(nullptr));
-    Station * station1 = new Station("modes", 2, 3);
-    Station * station2 = new Station("dupaGolt", 2, 3);
+    std::vector<Station *> stations;
+    stations.push_back(new Station("modes", 2, 3));
+    stations.push_back(new Station("dupaGolt", 2, 3));
 
-    station1->setPosition(10, 10);
-    station2->setPosition(50, 30);
+    stations[0]->setPosition(15, 10);
+    stations[1]->setPosition(50, 30);
 
 
     std::vector<Train*> trains;
@@ -43,16 +44,16 @@ int main()
     Canva canva({5, 1}, {120, 35});
     InfoBuffer buffer({5, 36}, {120, 20});
 
-    canva.addComponent(station1);
-    canva.addComponent(station2);
+    canva.addComponent(stations[0]);
+    canva.addComponent(stations[1]);
 
     for(int i = 0; i < TRAINS_NUM; i++)
     {
         RouteElement rt;
         RouteElement rt2;
-        rt.station = station1;
+        rt.station = stations[0];
         rt.stopTime = rand() % 1000 + 2000;
-        rt2.station = station2;
+        rt2.station = stations[1];
         rt2.stopTime = rand() % 1000 + 2000;
 
         if(i % 2 == 0)
@@ -64,13 +65,15 @@ int main()
         canva.addComponent(trains[i]);
     }
 
-    std::thread leave = std::thread(&Station::leavingMechanism, station1);
-    std::thread leave2 = std::thread(&Station::leavingMechanism, station2);
+    std::thread leave = std::thread(&Station::leavingMechanism, stations[0]);
+    std::thread leave2 = std::thread(&Station::leavingMechanism, stations[1]);
 
-    std::thread arrive = std::thread(&Station::arrivingMechanism, station1);
-    std::thread arrive2 = std::thread(&Station::arrivingMechanism, station2);
+    std::thread arrive = std::thread(&Station::arrivingMechanism, stations[0]);
+    std::thread arrive2 = std::thread(&Station::arrivingMechanism, stations[1]);
 
-    std::thread route = std::thread(setFreeRoute, station1);
+    std::thread route1 = std::thread(setFreeRoute, stations[0]);
+    std::thread route2 = std::thread(setFreeRoute, stations[1]);
+
 
     for(int i = 0; i < TRAINS_NUM; i++)
     {
@@ -91,11 +94,28 @@ int main()
     int ch = 0;
     do
     {   
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         clear();
         canva.draw();
         buffer.draw();
-    // } while(ch++ < 20);
+
+        MEVENT mEvent;
+
+        if(getmouse(&mEvent) == OK)
+        {
+            for(auto d : stations)
+            {
+                fVec p = d->getPosition();
+                if(mEvent.x == int(p.x) && mEvent.y == int(p.y))
+                {
+                    d->prompt.setVisible(true);
+                }
+                else
+                {
+                    d->prompt.setVisible(false);
+                }
+            }
+        }
     } while((ch = getch()) != 'q');
 
     endwin();

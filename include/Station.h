@@ -7,6 +7,7 @@
 
 #include "PassengerTrain.h"
 #include "gui/Drawable.h"
+#include "gui/PromptWindow.h"
 
 
 class Station : public Drawable
@@ -30,6 +31,8 @@ public:
 
     virtual bool draw();
 
+    PromptWindow prompt; // jebie mnie ładny kod, chce to szybko zrobić i elo
+
 private:
 
     void enqueue(Train* train_);
@@ -48,7 +51,6 @@ private:
     std::atomic<bool> isRouteFree{true};
 
     int* tracks{nullptr};
-    int tracksNum;
     int platformsNum;
-
+    int tracksNum;
 };

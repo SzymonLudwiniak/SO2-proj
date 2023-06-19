@@ -41,6 +41,11 @@ bool Canva::draw()
     return true;
 }
 
+std::vector<Drawable*> * Canva::getComponentsVector()
+{
+    return &components;
+}
+
 void Canva::adjustCompPos(Drawable * component)
 {
     fVec p = getPosition();

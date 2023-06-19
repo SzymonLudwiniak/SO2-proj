@@ -8,7 +8,8 @@
 Station::Station(std::string name_, int tracksNum_, int platformsNum_)
         : name(name_),
           tracksNum(tracksNum_),
-          platformsNum(platformsNum_)
+          platformsNum(platformsNum_),
+          prompt({0, 0}, {10, tracksNum_+2})
 {
     tracks = new int[tracksNum];
     for(int i = 0; i < tracksNum; i++)
@@ -128,9 +129,19 @@ void Station::addTrain(Train* train_)
 bool Station::draw()
 {
     fVec p = getPosition();
+    prompt.setPosition(p.x-12, p.y-4);
     for(int y = 0; y < 3; y++)
         for(int x = 0; x < 3; x++)
             mvaddch(p.y+y, p.x+x, '#');
+    
+    if(prompt.getVisible())
+    {
+        std::string info = "";
+        for(int t = 0; t < tracksNum; t++)
+            info += "track: " + std::to_string(tracks[t]) + "\n";
+        prompt.setString(info);
+    }
+    prompt.draw();
     return true;
 }
 

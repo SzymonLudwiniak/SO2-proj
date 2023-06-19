@@ -16,6 +16,8 @@ public:
 
     bool draw();
 
+    std::vector<Drawable*> * getComponentsVector();
+
 private:
     std::vector<Drawable*> components; 
 
