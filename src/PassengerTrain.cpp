@@ -76,7 +76,7 @@ void PassengerTrain::run()
 
             vec = {stationPos.x - pos.x, stationPos.y - pos.y};
 
-            float lenght = fsqrt(vec.x*vec.x + vec.y*vec.y);
+            float lenght = sqrtf(vec.x*vec.x + vec.y*vec.y);
 
             vec.x /= lenght;
             vec.y /= lenght;
@@ -87,10 +87,11 @@ void PassengerTrain::run()
         fVec pos = this->getPosition();
         fVec stationPos = route[stationCounter].station->getPosition();
 
-        if(abs(pos.x-stationPos.x) < 0.3 && abs(pos.y-stationPos.y) < 0.3)
+        if(!hasArrived && abs(pos.x-stationPos.x) < 0.3 && abs(pos.y-stationPos.y) < 0.3)
         {
             InfoBuffer::getInstance()->pushMessage("train arrived on station: " + route[stationCounter].station->name, MID_PRIORITY);
             route[stationCounter].station->addTrain(this);
+            hasArrived = true;
         }
 
         // sjesli jest na trasie to pomija mechanizm wymiany pasazerów
@@ -107,8 +108,9 @@ void PassengerTrain::run()
         this->trackAt = -1;
         this->isAllowedToLeave = false;
         this->stationCounter++;
+        this->hasArrived = false;
 
     }
 
-  //   std::cout << "Train: " << id << " finished its route.\n";
+  InfoBuffer::getInstance()->pushMessage("Train: " + std::to_string(id) + " finished its route.\n");
 }

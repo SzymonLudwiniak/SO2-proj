@@ -31,7 +31,7 @@ int main()
 {
     srand(time(nullptr));
     Station * station1 = new Station("modes", 2, 3);
-    Station * station2 = new Station("modes", 2, 3);
+    Station * station2 = new Station("dupaGolt", 2, 3);
 
     station1->setPosition(10, 10);
     station2->setPosition(50, 30);
@@ -53,9 +53,13 @@ int main()
         rt.station = station1;
         rt.stopTime = rand() % 1000 + 2000;
         rt2.station = station2;
-        rt.stopTime = rand() % 1000 + 2000;
+        rt2.stopTime = rand() % 1000 + 2000;
 
-        trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2}));
+        if(i % 2 == 0)
+            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt, rt2}));
+        else
+            trains.push_back(new PassengerTrain(120, rand()%99+1, {rt2, rt}));
+        
         trains[i]->setPosition(rand()%120, rand()%40);
         canva.addComponent(trains[i]);
     }

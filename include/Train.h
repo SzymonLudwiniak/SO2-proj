@@ -50,4 +50,6 @@ protected:
 
     int driverID{-1};
 
+    bool hasArrived{false};
+
 };
