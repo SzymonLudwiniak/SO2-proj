@@ -44,14 +44,17 @@ void Station::leavingMechanism()
 
         auto trainToLeave = dequeuePriority();
 
+        std::lock_guard<std::mutex> lock(leavingMutex);
         tracks[trainToLeave->getTrackAt()] = -1;
+        leavingMutex.unlock();
 
       //  trainToLeave->setNextSignal(SemaphoreEnum::GO_MAX_SPEED);
         trainToLeave->setIsAllowedToLeave(true);
 
-        this->isRouteFree = false;
+        //this->isRouteFree = false;
 
         popPriority();
+
     }
 }
 
@@ -73,11 +76,13 @@ void Station::arrivingMechanism()
             {
                 for(int i = 0; i < platformsNum; i++)
                 {
+                    std::lock_guard<std::mutex> lock(arrivingMutex);
                     if(tracks[i] != -1)
                         continue;
 
                     trackToArrive = i;
                     tracks[i] = trainToArrive->getID();
+                    arrivingMutex.unlock();
                     InfoBuffer::getInstance()->pushMessage("train " + std::to_string(trainToArrive->getID()) + " is on track " + std::to_string(i));
                     break;
                 }

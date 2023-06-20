@@ -34,5 +34,5 @@ memtest: $(BIN)/$(TARGET)
 		 $(BIN)/$(TARGET)
 
 threadtest: $(BIN)/$(TARGET)
-	valgrind --tool=drd -v --log-file=threads.log \
+	valgrind --tool=helgrind -v --log-file=threads2.log \
 	$(BIN)/$(TARGET)

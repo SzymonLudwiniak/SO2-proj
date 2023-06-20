@@ -60,12 +60,15 @@ void drawTracks(std::vector<Station *> stations)
 
 [[noreturn]] void setFreeRoute(Station * station)
 {
+    std::mutex m;
     while(true)
     {
         while(!station->getIsRouteFree()) {}
 
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        std::lock_guard<std::mutex> lock(m);
         station->setIsRouteFree(true);
+        m.unlock();
     }
 }
 
@@ -76,8 +79,7 @@ int main()
     std::cout << "Type number of trains: \n";
     std::cin >> TRAINS_NUM;
 
-    std::cout << "Type number of station (1-9):\n";
-    std::cin >> STATION_NUM;
+    STATION_NUM = 5;
 
     std::vector<Station *> stations(STATION_NUM);
     std::vector<Train *> trains(TRAINS_NUM);
@@ -121,7 +123,7 @@ int main()
             route[j] = rt;
         }
 
-        trains[i] = new PassengerTrain(rand() % 50, rand() % 20 + 100, route);
+        trains[i] = new PassengerTrain(100, rand() % 20 + 100, route);
         
         auto pos = route[0].station->getPosition();
         pos.x -= 6.f;
@@ -146,10 +148,10 @@ int main()
     }
 
     // creating freeing route threads
-    for(int i = 0; i < STATION_NUM; i++)
-    {
-        freeingRouteThreads[i] = std::thread(setFreeRoute, stations[i]);
-    }
+    // for(int i = 0; i < STATION_NUM; i++)
+    // {
+    //     freeingRouteThreads[i] = std::thread(setFreeRoute, stations[i]);
+    // }
 
     // creating train threads
     for(int i = 0; i < TRAINS_NUM; i++)

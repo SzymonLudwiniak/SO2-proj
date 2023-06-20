@@ -50,6 +50,9 @@ private:
     std::mutex trainsToLeaveMutex;
     std::mutex trainsToArriveMutex;
 
+    std::mutex arrivingMutex;
+    std::mutex leavingMutex;
+
     std::atomic<bool> isRouteFree{true};
 
     int* tracks{nullptr};
