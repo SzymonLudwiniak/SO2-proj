@@ -78,6 +78,8 @@ void PassengerTrain::run()
             fVec vec;
 
             fVec stationPos = route[stationCounter].station->getPosition();
+            stationPos.x += 1.f;
+            stationPos.y += 1.f;
 
             vec = {stationPos.x - pos.x, stationPos.y - pos.y};
 
@@ -91,8 +93,9 @@ void PassengerTrain::run()
 
         fVec pos = this->getPosition();
         fVec stationPos = route[stationCounter].station->getPosition();
-
-        if(!hasArrived && abs(pos.x-stationPos.x) < 0.3 && abs(pos.y-stationPos.y) < 0.3)
+        stationPos.x += 1.f;
+        stationPos.y += 1.f;
+        if(!hasArrived && abs(pos.x-stationPos.x) < 1.f && abs(pos.y-stationPos.y) < 1.f)
         {
             InfoBuffer::getInstance()->pushMessage("train arrived on station: " + route[stationCounter].station->name, MID_PRIORITY);
             route[stationCounter].station->addTrain(this);

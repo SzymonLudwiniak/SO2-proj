@@ -46,7 +46,14 @@ void drawTracks(std::vector<Station *> stations)
     {
         for(int j = 0; j < stations.size(); j++)
         {
-            drawLine(stations[i]->getPosition(), stations[j]->getPosition(), '+');
+            fVec p1 = stations[i]->getPosition();
+            fVec p2 = stations[j]->getPosition();
+            p1.x +=1.0;
+            p1.y +=1.0;
+            p2.x +=1.0;
+            p2.y +=1.0;
+
+            drawLine(p1, p2, '+');
         }
     }
 }
@@ -79,19 +86,19 @@ int main()
     std::vector<std::thread> freeingRouteThreads(STATION_NUM);
     std::vector<std::thread> trainsThreads(TRAINS_NUM);
 
-    stations[0] = new Station("Wlodawa", 8, 4);
+    stations[0] = new Station("Wlodawa", 4, 4);
     stations[0]->setPosition(5, 10);
-    stations[1] = new Station("Zary", 4, 2);
+    stations[1] = new Station("Zary", 2, 2);
     stations[1]->setPosition(60, 7);
-    stations[2] = new Station("Twardogora", 6, 3);
+    stations[2] = new Station("Twardogora", 3, 3);
     stations[2]->setPosition(100, 12);
-    stations[3] = new Station("Malin", 8, 2);
+    stations[3] = new Station("Malin", 2, 2);
     stations[3]->setPosition(35, 27);
-    stations[4] = new Station("Raciborz", 8, 4);
+    stations[4] = new Station("Raciborz", 4, 4);
     stations[4]->setPosition(81, 30);
 
-    Canva canva({5, 1}, {120, 35});
-    InfoBuffer buffer({5, 36}, {120, 20});
+    Canva canva({7, 1}, {120, 35});
+    InfoBuffer buffer({7, 36}, {120, 20});
 
     // creating stations
     for(int i = 0; i < STATION_NUM; i++)
@@ -102,15 +109,11 @@ int main()
     // creating trains
     for(int i = 0, k = 0; i < TRAINS_NUM; i++, k++)
     {
-        int routeSize = rand() % STATION_NUM;
 
-        if(routeSize < 2)
-            routeSize = (routeSize + 2) % STATION_NUM;
-
-        std::vector<RouteElement> route(routeSize);
+        std::vector<RouteElement> route(STATION_NUM);
 
         // creating routes
-        for(int j = 0; j < routeSize; j++, k++)
+        for(int j = 0; j < STATION_NUM; j++)
         {
             RouteElement rt;
             rt.station = stations[(j + k) % STATION_NUM];
@@ -121,10 +124,13 @@ int main()
         trains[i] = new PassengerTrain(rand() % 50, rand() % 20 + 100, route);
         
         auto pos = route[0].station->getPosition();
-
-        trains[i]->setPosition(pos.x, pos.y);
+        pos.x -= 6.f;
+        // pos.y -= 1.f;
+        trains[i]->setPosition(pos);
         route[0].station->addTrain(trains[i]);
+
         canva.addComponent(trains[i]);
+
     }
 
     // creating station threads
